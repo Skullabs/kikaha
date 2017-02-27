@@ -13,9 +13,6 @@ import kikaha.core.modules.http.WebResource;
 import kikaha.urouting.RoutingMethodResponseWriter;
 import kikaha.urouting.RoutingMethodParameterReader;
 import kikaha.urouting.RoutingMethodExceptionHandler;
-{{#requiresBodyData}}
-import kikaha.urouting.UndertowHelper;
-{{/requiresBodyData}}
 {{#asyncMode}}
 import kikaha.urouting.api.AsyncResponse;
 {{/asyncMode}}
@@ -26,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @Singleton
 @Typed( HttpHandler.class )
 @WebResource( path="{{httpPath}}", method="{{httpMethod}}" )
-public class GeneratedRoutingMethod{{identifier}} implements HttpHandler {
+final public class GeneratedRoutingMethod{{identifier}} implements HttpHandler {
 
 	@Inject RoutingMethodResponseWriter responseWriter;
 	@Inject RoutingMethodParameterReader methodDataProvider;
@@ -40,7 +37,7 @@ public class GeneratedRoutingMethod{{identifier}} implements HttpHandler {
 	{{/serviceInterface}}
 
 	@Override
-	public void handleRequest( HttpServerExchange exchange ) throws Exception {
+	public void handleRequest( final HttpServerExchange exchange ) throws Exception {
         try {
 		{{#requiresFormData}}
 			/* Requires to parse form data. */
@@ -52,29 +49,28 @@ public class GeneratedRoutingMethod{{identifier}} implements HttpHandler {
 		{{#requiresBodyData}}
 			/* Requires to parse body data. */
 			exchange.getRequestReceiver()
-				.receiveFullBytes((e, data) -> {
-                    UndertowHelper.storeReadBodyData( e, data );
-					runMethod( e );
-				}, this::handleException );
+				.receiveFullBytes( this::runMethod, this::handleException );
 		{{/requiresBodyData}}
         {{^requiresBodyData}}
-        {{/requiresBodyData}}
             /* Does not require to parse body data. */
-            runMethod( exchange );
+            this.runMethod( exchange );
+        {{/requiresBodyData}}
 		{{/requiresFormData}}
         } catch ( Throwable cause ) {
             this.handleException( exchange, cause );
         }
 	}
 
-	{{^asyncMode}}
-	private void runMethod( final HttpServerExchange exchange ){
-		if ( exchange.isInIoThread() ) {
-			exchange.dispatch( this::runMethod );
-			return;
-		}
+    private void runMethod( final HttpServerExchange exchange ) {
+        log.info( "Sending null as data..." );
+        runMethod( exchange, null );
+    }
 
-		try {
+	{{^asyncMode}}
+	private void runMethod( final HttpServerExchange exchange, final byte[] bodyData ){
+		if ( exchange.isInIoThread() )
+			exchange.dispatch( ()-> this.runMethod( exchange, bodyData ) );
+		else try {
 			{{#returnType}}
 				final {{{returnType}}} response = instance.{{methodName}}( {{{methodParams}}} );
 				{{#responseContentType}}
@@ -93,7 +89,7 @@ public class GeneratedRoutingMethod{{identifier}} implements HttpHandler {
 		}
 	}
 	{{/asyncMode}}{{#asyncMode}}
-	private void runMethod( final HttpServerExchange exchange ){
+	private void runMethod( final HttpServerExchange exchange, final byte[] bodyData ){
 		try {
 			{{#responseContentType}}
 			final AsyncResponse asyncResponse = new AsyncResponse( exchange, responseWriter, exceptionHandler, "{{{responseContentType}}}" );
@@ -101,7 +97,6 @@ public class GeneratedRoutingMethod{{identifier}} implements HttpHandler {
 			{{^responseContentType}}
 			final AsyncResponse asyncResponse = new AsyncResponse( exchange, responseWriter, exceptionHandler );
 			{{/responseContentType}}
-			exchange.dispatch();
 			instance.{{methodName}}( {{{methodParams}}} );
 		} catch ( Throwable cause ) {
 			this.handleException( exchange, cause );

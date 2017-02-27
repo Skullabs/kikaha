@@ -13,7 +13,6 @@ import kikaha.core.cdi.*;
 import kikaha.core.cdi.helpers.filter.Condition;
 import kikaha.core.modules.http.ContentType;
 import kikaha.core.test.HttpServerExchangeStub;
-import kikaha.core.test.KikahaRunner;
 import kikaha.urouting.UndertowHelper;
 import kikaha.urouting.api.*;
 import kikaha.urouting.serializers.jackson.User.Address;
@@ -63,8 +62,7 @@ public class SerializationTest {
 		final Unserializer unserializer = provider.load( Unserializer.class, new JSONContentTypeCondition<>() );
 		final HttpServerExchange exchange = HttpServerExchangeStub.createHttpExchange();
 		exchange.startBlocking( blockingExchange );
-		UndertowHelper.storeReadBodyData( exchange, json.getBytes() );
-		final User user = unserializer.unserialize( exchange, User.class, "UTF-8" );
+		final User user = unserializer.unserialize( exchange, User.class, json.getBytes(), "UTF-8" );
 		assertIsValidUser( user );
 	}
 

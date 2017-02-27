@@ -2,4 +2,5 @@ server:
   urouting:
     default-encoding: "UTF-8"
     default-content-type: "text/plain"
+    content-type-priority: "CONFIG"
     exception-handler: kikaha.urouting.UnhandledExceptionHandler

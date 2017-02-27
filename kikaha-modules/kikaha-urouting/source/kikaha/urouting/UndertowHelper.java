@@ -14,8 +14,6 @@ import javax.inject.Singleton;
 @Singleton
 public class UndertowHelper {
 
-	private static final AttachmentKey<byte[]> ATTACHMENT_RAW_BYTES = AttachmentKey.create(byte[].class);
-
 	@Inject RoutingMethodParameterReader parameterReader;
 	@Inject RoutingMethodResponseWriter responseWriter;
 	@Inject RoutingMethodExceptionHandler exceptionHandler;
@@ -28,20 +26,6 @@ public class UndertowHelper {
 	 */
 	public SimpleExchange simplify(HttpServerExchange exchange) {
 		return SimpleExchange.wrap( exchange, parameterReader, responseWriter, exceptionHandler );
-	}
-
-	/**
-	 * Retrieve the memorized body data.
-	 *
-	 * @param exchange
-	 * @return
-	 */
-	public static byte[] getReadBodyData( final HttpServerExchange exchange ){
-		return exchange.getAttachment( ATTACHMENT_RAW_BYTES );
-	}
-
-	public static void storeReadBodyData( final HttpServerExchange exchange, final byte[] data ){
-		exchange.putAttachment( ATTACHMENT_RAW_BYTES, data );
 	}
 
 	/**

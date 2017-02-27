@@ -162,8 +162,8 @@ public class RoutingMethodData {
 	static String getBodyParam( final ExecutableElement method, final String targetType ) {
 		final String consumingContentType = extractConsumingContentTypeFrom( method );
 		if ( consumingContentType != null )
-			return format( "methodDataProvider.getBody( exchange, %s.class, \"%s\" )", targetType, consumingContentType );
-		return format( "methodDataProvider.getBody( exchange, %s.class )", targetType );
+			return format( "methodDataProvider.getBody( exchange, %s.class, bodyData, \"%s\" )", targetType, consumingContentType );
+		return format( "methodDataProvider.getBody( exchange, %s.class, bodyData )", targetType );
 	}
 
 	static String extractConsumingContentTypeFrom( final ExecutableElement method ) {

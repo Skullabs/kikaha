@@ -21,12 +21,13 @@ public class RESTFulExchange implements Exchange {
 
     final LocalExchange localExchange;
     final SimpleExchange exchange;
+    final byte[] bytes;
 
     @Override
     @SuppressWarnings("unchecked")
     public <REQ> REQ request() {
         try {
-            return (REQ)exchange.getRequestBody( Map.class );
+            return (REQ)exchange.getRequestBody( Map.class, bytes );
         } catch (IOException e) {
             throw new IllegalStateException( e );
         }
@@ -35,7 +36,7 @@ public class RESTFulExchange implements Exchange {
     @Override
     public <REQ> REQ requestAs(Class<REQ> targetClass) throws IOException {
         try {
-            return exchange.getRequestBody( targetClass );
+            return exchange.getRequestBody( targetClass, bytes );
         } catch (IOException e) {
             throw new IllegalStateException( e );
         }

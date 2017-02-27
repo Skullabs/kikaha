@@ -16,6 +16,7 @@ import org.junit.runner.RunWith;
  */
 @RunWith(KikahaRunner.class)
 public class RoutingMethodParameterReaderTest {
+	final byte[] bytes = "Hello World".getBytes();
 
 	@Inject
 	HelloWorldUnserializer unserializer;
@@ -26,21 +27,21 @@ public class RoutingMethodParameterReaderTest {
 	@Test
 	public void ensureThatIsAbleToUnserializeACustomContentType() throws IOException {
 		final HttpServerExchange exchange = createExchange( "text/hello" );
-		final String readParameter = paramReader.getBody(exchange, String.class);
+		final String readParameter = paramReader.getBody(exchange, String.class, bytes);
 		assertEquals( "Hello World", readParameter );
 	}
 
 	@Test
 	public void ensureThatHaveCalledTheCustomContentTypeUnserializer() throws IOException {
 		final HttpServerExchange exchange = createExchange( "text/hello" );
-		paramReader.getBody(exchange, String.class);
+		paramReader.getBody(exchange, String.class, bytes);
 		assertTrue( unserializer.isMethodCalled() );
 	}
 
 	@Test
 	public void ensureThatCanFindTheUnserializerForAGivenContentTypeWithEncodingSuffix() throws IOException {
 		final HttpServerExchange exchange = createExchange( "text/hello;charset=UTF-8" );
-		paramReader.getBody(exchange, String.class);
+		paramReader.getBody(exchange, String.class, bytes);
 		assertTrue( unserializer.isMethodCalled() );
 	}
 

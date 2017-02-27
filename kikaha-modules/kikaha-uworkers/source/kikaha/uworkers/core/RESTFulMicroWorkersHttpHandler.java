@@ -24,9 +24,11 @@ public class RESTFulMicroWorkersHttpHandler implements HttpHandler {
     @Override
     public void handleRequest(HttpServerExchange exchange) throws Exception {
         final SimpleExchange simpleExchange = helper.simplify(exchange);
-        final LocalExchange localExchange = LocalExchange.create().then( RESTFulUWorkerResponse.to(simpleExchange) );
-        final RESTFulExchange restFulExchange = new RESTFulExchange(localExchange, simpleExchange);
-        if ( !inbox.poll( restFulExchange ) )
-            simpleExchange.sendResponse( TOO_MANY_REQUESTS );
+        simpleExchange.receiveRequest( (ex, data) ->{
+            final LocalExchange localExchange = LocalExchange.create().then( RESTFulUWorkerResponse.to(simpleExchange) );
+            final RESTFulExchange restFulExchange = new RESTFulExchange(localExchange, simpleExchange, data);
+            if ( !inbox.poll( restFulExchange ) )
+                simpleExchange.sendResponse( TOO_MANY_REQUESTS );
+        });
     }
 }

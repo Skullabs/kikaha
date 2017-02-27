@@ -1,5 +1,7 @@
 package kikaha.urouting;
 
+import static kikaha.urouting.ContentTypePriority.CONFIG;
+
 import java.io.IOException;
 import java.util.*;
 import javax.annotation.PostConstruct;
@@ -9,40 +11,39 @@ import io.undertow.server.handlers.Cookie;
 import io.undertow.server.handlers.form.FormData;
 import io.undertow.server.handlers.form.FormData.FormValue;
 import io.undertow.server.handlers.form.FormDataParser;
-import io.undertow.server.handlers.form.FormParserFactory;
 import io.undertow.util.*;
 import kikaha.config.Config;
 import kikaha.urouting.api.*;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Provides data to a routing method.
  */
+@Slf4j
 @Singleton
 public class RoutingMethodParameterReader {
 
-	@Inject
-	Config kikahaConf;
+	@Inject Config kikahaConf;
+	@Inject ConverterFactory converterFactory;
+	@Inject ContextProducerFactory contextProducerFactory;
+	@Inject SerializerAndUnserializerProvider serializerAndUnserializerProvider;
 
-	@Inject
-	ConverterFactory converterFactory;
-
-	@Inject
-	ContextProducerFactory contextProducerFactory;
-
-	@Inject
-	SerializerAndUnserializerProvider serializerAndUnserializerProvider;
-
-	@Getter
-	String defaultEncoding;
-
-	@Getter
-	String defaultContentType;
+	@Getter String defaultEncoding;
+	@Getter String defaultContentType;
+	@Getter boolean configContentTypeHasPriorityOverRequestHeaders;
 
 	@PostConstruct
 	public void readConfig() {
 		defaultEncoding = kikahaConf.getString("server.urouting.default-encoding");
 		defaultContentType = kikahaConf.getString("server.urouting.default-content-type");
+		final String contentTypePriority = kikahaConf.getString( "server.urouting.content-type-priority" );
+		configContentTypeHasPriorityOverRequestHeaders = ContentTypePriority.valueOf( contentTypePriority ).equals( CONFIG );
+
+		log.info( "Micro Routing API" );
+		log.info( "  default-encoding: " + defaultEncoding );
+		log.info( "  default-content-type: " + defaultContentType );
+		log.info( "  content-type-priority: " + contentTypePriority );
 	}
 
 	/**
@@ -161,8 +162,8 @@ public class RoutingMethodParameterReader {
 	 * @return
 	 * @throws IOException
 	 */
-	public <T> T getBody(final HttpServerExchange exchange, final Class<T> clazz) throws IOException {
-		return getBody(exchange, clazz, getDefaultContentType());
+	public <T> T getBody(final HttpServerExchange exchange, final Class<T> clazz, final byte[] bodyData) throws IOException {
+		return getBody(exchange, clazz, bodyData, getDefaultContentType());
 	}
 
 	/**
@@ -174,35 +175,36 @@ public class RoutingMethodParameterReader {
 	 * from client into the desired object. The "Content-Type" header is the
 	 * information needed to define which {@link Unserializer} should be used to
 	 * decode the sent data into an object. When no {@link Unserializer} is
-	 * found it uses the {@code defaultConsumingContentType} argument to seek
+	 * found it uses the {@code fallbackConsumingContentType} argument to seek
 	 * another one. It throws {@link IOException} when no decoder was
 	 * found.
 	 *
 	 * @param exchange
 	 * @param clazz
-	 * @param defaultConsumingContentType
+	 * @param fallbackConsumingContentType
 	 * @return
 	 * @throws IOException
 	 */
-	public <T> T getBody(final HttpServerExchange exchange, final Class<T> clazz, final String defaultConsumingContentType)
+	public <T> T getBody(final HttpServerExchange exchange, final Class<T> clazz, final byte[] bodyData, final String fallbackConsumingContentType)
 			throws IOException {
-		String contentEncoding = exchange.getRequestHeaders().getFirst(Headers.CONTENT_ENCODING_STRING);
+		final HeaderMap requestHeaders = exchange.getRequestHeaders();
+		String contentEncoding = requestHeaders.getFirst(Headers.CONTENT_ENCODING_STRING);
 		if (contentEncoding == null)
 			contentEncoding = getDefaultEncoding();
-		String contentType = exchange.getRequestHeaders().getFirst(Headers.CONTENT_TYPE_STRING);
-		if (contentType == null)
-			contentType = defaultConsumingContentType;
-		return unserializeReceivedBodyStream(exchange, clazz, contentEncoding, contentType);
+		String contentType = requestHeaders.getFirst(Headers.CONTENT_TYPE_STRING);
+		if (contentType == null || configContentTypeHasPriorityOverRequestHeaders )
+			contentType = fallbackConsumingContentType;
+		return unserializeReceivedBodyStream(exchange, clazz, bodyData, contentEncoding, contentType);
 	}
 
 	private <T> T unserializeReceivedBodyStream(
-			final HttpServerExchange exchange, final Class<T> clazz,
+			final HttpServerExchange exchange, final Class<T> clazz, final byte[] bodyData,
             final String contentEncoding, final String contentType) throws IOException
 	{
 		if (!exchange.isBlocking())
 			exchange.startBlocking();
 		final Unserializer unserializer = serializerAndUnserializerProvider.getUnserializerFor(contentType);
-		return unserializer.unserialize(exchange, clazz, contentEncoding);
+		return unserializer.unserialize(exchange, clazz, bodyData, contentEncoding );
 	}
 
 	/**
@@ -219,4 +221,8 @@ public class RoutingMethodParameterReader {
 			return producerFor.produce(exchange);
 		throw new RoutingException("No context provider for " + clazz.getCanonicalName());
 	}
+}
+
+enum ContentTypePriority {
+	CONFIG, REQUEST
 }

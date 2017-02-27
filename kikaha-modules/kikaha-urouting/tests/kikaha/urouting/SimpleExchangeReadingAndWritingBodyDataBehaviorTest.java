@@ -27,6 +27,7 @@ import static org.mockito.Mockito.verify;
 public class SimpleExchangeReadingAndWritingBodyDataBehaviorTest {
 
 	private static final String CONTENT_TYPE = "any-content-type";
+	final byte[] bytes = "Hello World".getBytes();
 
 	@Spy RoutingMethodParameterReader parameterReader;
 	@Spy RoutingMethodResponseWriter responseWriter;
@@ -48,8 +49,8 @@ public class SimpleExchangeReadingAndWritingBodyDataBehaviorTest {
 	public void ensureThatIsAbleToReadAllPostData() throws IOException {
 		final HttpServerExchange request = createExchange();
 		final SimpleExchange exchange = SimpleExchange.wrap( request, parameterReader, responseWriter, exceptionHandler );
-		doReturn( "Hello World" ).when( unserializer ).unserialize( eq(request), eq( String.class), anyString() );
-		assertEquals( "Hello World", exchange.getRequestBody( String.class, CONTENT_TYPE ) );
+		doReturn( "Hello World" ).when( unserializer ).unserialize( eq(request), eq(String.class), eq(bytes), anyString() );
+		assertEquals( "Hello World", exchange.getRequestBody( String.class, bytes, CONTENT_TYPE ) );
 	}
 
 	@Test

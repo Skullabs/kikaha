@@ -1,16 +1,14 @@
 package kikaha.urouting.api;
 
+import java.io.*;
 import io.undertow.server.HttpServerExchange;
-
-import java.io.IOException;
-import java.io.Reader;
-import java.nio.channels.Channels;
 
 public abstract class AbstractUnserializer implements Unserializer {
 
 	@Override
-	public <T> T unserialize(HttpServerExchange input, Class<T> targetClass, String encoding) throws IOException {
-		final Reader reader = Channels.newReader( input.getRequestChannel(), encoding );
+	public <T> T unserialize( HttpServerExchange input, Class<T> targetClass, byte[] body, String encoding ) throws IOException {
+		final String content = new String( body, encoding );
+		final Reader reader = new StringReader( content );
 		return unserialize(reader, targetClass);
 	}
 

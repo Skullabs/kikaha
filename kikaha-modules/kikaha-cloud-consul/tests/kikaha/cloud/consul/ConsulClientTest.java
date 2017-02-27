@@ -14,6 +14,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 /**
  * Unit tests for {@link ConsulClient}.
  */
+@Ignore
 @RunWith( MockitoJUnitRunner.class )
 public class ConsulClientTest {
 

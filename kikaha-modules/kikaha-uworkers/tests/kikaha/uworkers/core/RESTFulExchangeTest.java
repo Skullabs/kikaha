@@ -21,6 +21,8 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class RESTFulExchangeTest {
 
+    final byte[] helloWorld = "Hello World".getBytes();
+
     @Mock SimpleExchange simpleExchange;
     LocalExchange localExchange;
     RESTFulExchange exchange;
@@ -29,19 +31,19 @@ public class RESTFulExchangeTest {
     public void setup() {
         localExchange = spy( LocalExchange.of( null ) );
         doReturn( null ).when( localExchange ).response();
-        exchange = new RESTFulExchange( localExchange, simpleExchange );
+        exchange = new RESTFulExchange( localExchange, simpleExchange, helloWorld );
     }
 
     @Test
     public void request() throws Exception {
         exchange.request();
-        verify( simpleExchange ).getRequestBody( eq(Map.class) );
+        verify( simpleExchange ).getRequestBody( eq(Map.class), eq(helloWorld) );
     }
 
     @Test
     public void requestAs() throws Exception {
         exchange.requestAs( Object.class );
-        verify( simpleExchange ).getRequestBody( eq(Object.class) );
+        verify( simpleExchange ).getRequestBody( eq(Object.class), eq(helloWorld) );
     }
 
     @Test

@@ -9,7 +9,6 @@ import kikaha.core.modules.http.WebResource;
 import kikaha.urouting.RoutingMethodResponseWriter;
 import kikaha.urouting.RoutingMethodParameterReader;
 import kikaha.urouting.RoutingMethodExceptionHandler;
-import kikaha.urouting.UndertowHelper;
 import kikaha.urouting.api.Response;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @Singleton
 @Typed( HttpHandler.class )
 @WebResource( path="/hello/world", method="GET" )
-public class GeneratedRoutingMethod123 implements HttpHandler {
+final public class GeneratedRoutingMethod123 implements HttpHandler {
 
 	@Inject RoutingMethodResponseWriter responseWriter;
 	@Inject RoutingMethodParameterReader methodDataProvider;
@@ -26,23 +25,24 @@ public class GeneratedRoutingMethod123 implements HttpHandler {
 	@Inject kikaha.urouting.samples.RetrieveRoutes provider;
 
 	@Override
-	public void handleRequest( HttpServerExchange exchange ) throws Exception {
+	public void handleRequest( final HttpServerExchange exchange ) throws Exception {
         try {
 			/* Does not require to parse form data. */
 			/* Requires to parse body data. */
 			exchange.getRequestReceiver()
-				.receiveFullBytes((e, data) -> {
-                    UndertowHelper.storeReadBodyData( e, data );
-					runMethod( e );
-				}, this::handleException );
+				.receiveFullBytes( this::runMethod, this::handleException );
             /* Does not require to parse body data. */
-            runMethod( exchange );
+            this.runMethod( exchange );
         } catch ( Throwable cause ) {
             this.handleException( exchange, cause );
         }
 	}
 
-	private void runMethod( final HttpServerExchange exchange ){
+    private void runMethod( final HttpServerExchange exchange ) {
+        runMethod( exchange, null );
+    }
+
+	private void runMethod( final HttpServerExchange exchange, final byte[] bodyData ){
 		if ( exchange.isInIoThread() ) {
 			exchange.dispatch( this::runMethod );
 			return;
