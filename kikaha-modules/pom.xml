@@ -29,6 +29,7 @@
     <module>kikaha-protobuf</module>
     <module>kikaha-jackson</module>
     <module>kikaha-db</module>
+    <module>kikaha-rocker</module>
   </modules>
 
   <dependencies>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>kikaha-modules</artifactId>
+        <groupId>io.skullabs.kikaha</groupId>
+        <version>2.1.0-alpha16</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>kikaha-rocker</artifactId>
+    <name>Kikaha: Java Rocker Template</name>
+    <packaging>jar</packaging>
+
+    <properties>
+        <rocker.version>0.16.0</rocker.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>kikaha-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>kikaha-urouting</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fizzed</groupId>
+            <artifactId>rocker-runtime</artifactId>
+            <version>${rocker.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fizzed</groupId>
+            <artifactId>rocker-compiler</artifactId>
+            <version>${rocker.version}</version>
+            <!--<scope>provided</scope>-->
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.fizzed</groupId>
+                <artifactId>rocker-maven-plugin</artifactId>
+                <version>0.16.0</version>
+                <executions>
+                    <execution>
+                        <id>generate-rocker-templates</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
