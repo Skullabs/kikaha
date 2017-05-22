@@ -32,14 +32,39 @@ public class RockerResponse implements Response {
     @NonNull
     Integer statusCode = 200;
 
-    public RockerResponse paramObject( final Object entity ) {
-        this.entity.paramObject( entity );
+    public RockerResponse objects( final Object entity ) {
+        this.entity.setObjects( entity );
         return this;
     }
 
     public RockerResponse templateName( final String templateName ) {
-        this.entity.templateName( templateName );
+        this.entity.setTemplateName( templateName );
         return this;
+    }
+
+    @Override
+    public Object entity() {
+        return null;
+    }
+
+    @Override
+    public Integer statusCode() {
+        return null;
+    }
+
+    @Override
+    public String encoding() {
+        return null;
+    }
+
+    @Override
+    public String contentType() {
+        return null;
+    }
+
+    @Override
+    public Iterable<Header> headers() {
+        return null;
     }
 }
 

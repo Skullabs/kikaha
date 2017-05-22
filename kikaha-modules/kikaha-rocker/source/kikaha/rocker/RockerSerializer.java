@@ -3,6 +3,7 @@ package kikaha.rocker;
 import com.fizzed.rocker.BindableRockerModel;
 import com.fizzed.rocker.RockerModel;
 import com.fizzed.rocker.TemplateBindException;
+import com.fizzed.rocker.runtime.ArrayOfByteArraysOutput;
 import com.fizzed.rocker.runtime.RockerRuntime;
 import kikaha.config.Config;
 import lombok.Getter;
@@ -15,6 +16,8 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.reflect.Field;
+import java.nio.ByteBuffer;
+import java.util.List;
 
 /**
  * @author <a href="mailto:j.milagroso@gmail.com">Jay Milagroso</a>
@@ -41,13 +44,21 @@ public class RockerSerializer {
     }
 
     public void serialize( final RockerTemplate object, final Writer writer ) {
-        final String templateName = object.templateName();
+        final String templateName = object.getTemplateName();
 
-        String rendered = this.template(templateName, (Object[]) object.paramObject())
-                .render()
-                .toString();
+        BindableRockerModel template = this.template(templateName, (Object[]) object.getObjects());
+        ArrayOfByteArraysOutput output = template.render(ArrayOfByteArraysOutput.FACTORY);
+
+        // Convert to array of byte buffers
+        List<byte[]> byteArrays = output.getArrays();
+        int size = byteArrays.size();
+        ByteBuffer[] byteBuffers = new ByteBuffer[size];
+        for (int i = 0; i < size; i++) {
+            byteBuffers[i] = ByteBuffer.wrap(byteArrays.get(i));
+        }
+
         try {
-            writer.write(rendered);
+            writer.write(output.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -58,7 +69,7 @@ public class RockerSerializer {
         // load model from bootstrap (which may recompile if needed)
         RockerModel model = RockerRuntime.getInstance().getBootstrap().model(templatePath);
 
-        BindableRockerModel bindableModel = new BindableRockerModel(templatePath, model.getClass().getCanonicalName(), model);
+        BindableRockerModel bindableRockerModel = new BindableRockerModel(templatePath, model.getClass().getCanonicalName(), model);
 
         if (arguments != null && arguments.length > 0) {
             String[] argumentNames = getModelArgumentNames(templatePath, model);
@@ -70,11 +81,11 @@ public class RockerSerializer {
             for (int i = 0; i < arguments.length; i++) {
                 String name = argumentNames[i];
                 Object value = arguments[i];
-                bindableModel.bind(name, value);
+                bindableRockerModel.bind(name, value);
             }
         }
 
-        return bindableModel;
+        return bindableRockerModel;
     }
 
     static private String[] getModelArgumentNames(String templatePath, RockerModel model) {

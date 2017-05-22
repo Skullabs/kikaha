@@ -1,9 +1,13 @@
 package kikaha.rocker;
 
-import lombok.NonNull;
+import lombok.*;
 
 import java.io.Serializable;
 
+@Getter
+@Setter
+@EqualsAndHashCode
+@RequiredArgsConstructor
 public class User implements Serializable {
 
     private static final long serialVersionUID = -3278587347520465945L;

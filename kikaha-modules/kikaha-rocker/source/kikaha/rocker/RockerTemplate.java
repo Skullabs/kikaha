@@ -19,5 +19,25 @@ public class RockerTemplate {
     String templateName;
 
     @NonNull
-    Object paramObject;
+    Object objects;
+
+    public RockerTemplate setTemplateName(String name) {
+        this.templateName = name;
+
+        return this;
+    }
+
+    public RockerTemplate setObjects(Object ... args) {
+        this.objects = args;
+
+        return this;
+    }
+
+    public String getTemplateName() {
+        return this.templateName;
+    }
+
+    public Object getObjects() {
+        return this.objects;
+    }
 }
