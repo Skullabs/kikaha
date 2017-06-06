@@ -16,8 +16,6 @@ import java.util.Iterator;
 /**
  * @author <a href="mailto:j.milagroso@gmail.com">Jay Milagroso</a>
  */
-@Setter
-@Getter
 @Accessors( fluent = true )
 @NoArgsConstructor( staticName = "ok" )
 public class RockerResponse implements Response {

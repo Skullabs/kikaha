@@ -5,7 +5,6 @@ import io.undertow.server.HttpServerExchange;
 import kikaha.config.Config;
 import kikaha.core.test.HttpServerExchangeStub;
 import kikaha.core.test.KikahaRunner;
-import lombok.val;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +17,6 @@ import javax.inject.Inject;
 import java.io.File;
 
 import static junit.framework.TestCase.assertTrue;
-import static kikaha.core.cdi.DefaultCDI.newInstance;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
