@@ -6,9 +6,6 @@ import com.fizzed.rocker.TemplateBindException;
 import com.fizzed.rocker.runtime.ArrayOfByteArraysOutput;
 import com.fizzed.rocker.runtime.RockerRuntime;
 import kikaha.config.Config;
-import lombok.Getter;
-import lombok.experimental.Accessors;
-
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -23,8 +20,6 @@ import java.util.List;
  * @author <a href="mailto:j.milagroso@gmail.com">Jay Milagroso</a>
  */
 @Singleton
-@Getter
-@Accessors( fluent = true )
 public class RockerSerializer {
     private boolean shouldCacheTemplates;
 

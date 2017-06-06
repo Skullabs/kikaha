@@ -92,7 +92,7 @@ public class RockerTest {
     RockerResponse testSimulatedRockerResponse(String name) {
         User user = new User();
         user.name = name;
-        RockerResponse response = RockerResponse.ok()
+        RockerResponse response = new RockerResponse()
                 .templateName( "dummy.template" )
                 .objects( user );
         return response;
