@@ -5,6 +5,7 @@ import io.undertow.server.HttpServerExchange;
 import kikaha.config.Config;
 import kikaha.core.test.HttpServerExchangeStub;
 import kikaha.core.test.KikahaRunner;
+import lombok.val;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +18,7 @@ import javax.inject.Inject;
 import java.io.File;
 
 import static junit.framework.TestCase.assertTrue;
+import static kikaha.core.cdi.DefaultCDI.newInstance;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
@@ -47,42 +49,27 @@ public class RockerTest {
         RockerRuntime.getInstance().setReloading(true);
     }
 
-    // RockerResource
-    @Test
-    public void testRockerResource() {
-        RockerResource rockerResource = new RockerResource();
-        rockerResource.renderTemplate("views/index.rocker.html");
-
-        assertTrue(rockerResource instanceof RockerResource);
-    }
-
     // RockerTemplate
     @Test
     public void testRockerTemplate() {
         RockerTemplate rockerTemplate = new RockerTemplate();
-        rockerTemplate.paramObject = "Test";
-        rockerTemplate.templateName = "index";
 
-        assertThat( rockerTemplate.templateName, is( "index" ) );
-        assertThat( rockerTemplate.paramObject, is( "Test" ) );
+        // set template name and objects.
+        assertTrue(rockerTemplate.setObjects("Hello there") instanceof RockerTemplate);
+        assertTrue(rockerTemplate.setTemplateName("index") instanceof RockerTemplate);
+
+        // get template name.
+        assertTrue( rockerTemplate.templateName instanceof String);
+        assertThat( rockerTemplate.getTemplateName(), is( "index" ));
+
+        // get objects.
+        assertTrue( rockerTemplate.getObjects() instanceof Object);
+        assertThat( rockerTemplate.getObjects(), is( new String[]{"Hello there"}));
+
+        // Is rocker template?
         assertEquals(true, rockerTemplate instanceof RockerTemplate);
 
     }
-
-    // RockerResponse
-    @Test
-    public void testRockerResponse() {
-        User user = new User();
-        user.name = "Peter";
-        RockerResponse response = RockerResponse.ok()
-                .templateName( "index" )
-                .paramObject( user  );
-
-        assertEquals(true, response instanceof RockerResponse);
-        assertTrue(response.entity.paramObject instanceof User);
-        assertThat( response.entity.templateName, is( "index" ) );
-    }
-
 
     // RockerSerializerFactory
     @Test
@@ -92,4 +79,26 @@ public class RockerTest {
 
         assertEquals(true, rockerSerializerFactory instanceof RockerSerializerFactory);
     }
+
+    // RockerResponse
+    @Test
+    public void testRockerResponse() {
+        RockerResponse response = testSimulatedRockerResponse("Peter");
+
+        assertEquals(true, response instanceof RockerResponse);
+        assertTrue(response.entity.objects instanceof Object);
+        assertThat( response.entity.templateName, is( "dummy.template" ) );
+    }
+
+    // RockerResponse simulated call.
+    RockerResponse testSimulatedRockerResponse(String name) {
+        User user = new User();
+        user.name = name;
+        RockerResponse response = RockerResponse.ok()
+                .templateName( "dummy.template" )
+                .objects( user );
+        return response;
+    }
+
 }
+
