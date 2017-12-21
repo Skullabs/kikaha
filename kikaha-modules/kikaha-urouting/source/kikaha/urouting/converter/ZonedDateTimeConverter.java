@@ -4,6 +4,7 @@ import kikaha.urouting.api.AbstractConverter;
 import kikaha.urouting.api.ConversionException;
 
 import javax.enterprise.inject.Typed;
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -13,7 +14,7 @@ import java.util.Date;
 @Typed( AbstractConverter.class )
 public class ZonedDateTimeConverter extends AbstractConverter<ZonedDateTime> {
 
-	final DateConverter converter = new DateConverter();
+	@Inject DateConverter converter;
 
 	@Override
 	public ZonedDateTime convert(String dataAsStr) throws ConversionException {

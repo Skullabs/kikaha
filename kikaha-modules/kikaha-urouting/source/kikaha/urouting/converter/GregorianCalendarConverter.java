@@ -4,6 +4,7 @@ import kikaha.urouting.api.AbstractConverter;
 import kikaha.urouting.api.ConversionException;
 
 import javax.enterprise.inject.Typed;
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -12,7 +13,7 @@ import java.util.GregorianCalendar;
 @Typed( AbstractConverter.class )
 public class GregorianCalendarConverter extends AbstractConverter<GregorianCalendar> {
 
-	final DateConverter dateConverter = new DateConverter();
+	@Inject DateConverter dateConverter;
 
 	@Override
 	public GregorianCalendar convert( final String value ) throws ConversionException {

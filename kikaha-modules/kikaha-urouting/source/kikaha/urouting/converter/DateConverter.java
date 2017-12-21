@@ -19,12 +19,11 @@ public class DateConverter extends AbstractConverter<Date> {
 	@Inject
 	Config config;
 
-	SimpleDateFormat dateFormat;
+	String dateFormat;
 
 	@PostConstruct
 	public void loadConfig(){
-		final String s = config.getString("server.urouting.date-format", "yyyy-MM-dd HH:mm:ss");
-		dateFormat = new SimpleDateFormat( s );
+		dateFormat = config.getString("server.urouting.date-format", "yyyy-MM-dd HH:mm:ss");
 	}
 
 	@Override
@@ -52,7 +51,7 @@ public class DateConverter extends AbstractConverter<Date> {
 
 	private Date tryToConvertFromInternationDateFormat( String value ) {
 		try {
-			return dateFormat.parse( value );
+			return new SimpleDateFormat( dateFormat ).parse( value );
 		} catch ( final ParseException e ) {
 			return null;
 		}
