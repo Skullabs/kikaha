@@ -11,7 +11,7 @@ import org.junit.Test;
 public class ManifestMergerTest {
 
     final String expectedMergedManifest = "Manifest-Version: 1.0\r\n" +
-            "Created-By: Kikaha 2.1.4.Final\r\n" +
+            "Created-By: Kikaha 2.2.0-SNAPSHOT\r\n" +
             "Main-Class: kikaha.core.cdi.ApplicationRunner\r\n" +
             "\r\n";
 

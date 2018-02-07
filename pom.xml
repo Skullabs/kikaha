@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.skullabs.kikaha</groupId>
-    <version>2.1.4.Final</version>
+    <version>2.2.0-SNAPSHOT</version>
     <artifactId>kikaha-parent</artifactId>
     <name>Kikaha</name>
     <description>A fast micro container written over Undertow</description>
@@ -130,136 +130,136 @@
             <!-- Module dependencies -->
             <dependency>
                 <groupId>io.skullabs.kikaha</groupId>
-                <version>2.1.4.Final</version>
+                <version>2.2.0-SNAPSHOT</version>
                 <artifactId>kikaha-injection</artifactId>
                 <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>io.skullabs.kikaha</groupId>
-                <version>2.1.4.Final</version>
+                <version>2.2.0-SNAPSHOT</version>
                 <artifactId>kikaha-injection-processor</artifactId>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>io.skullabs.kikaha</groupId>
                 <artifactId>kikaha-config</artifactId>
-                <version>2.1.4.Final</version>
+                <version>2.2.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>io.skullabs.kikaha</groupId>
-                <version>2.1.4.Final</version>
+                <version>2.2.0-SNAPSHOT</version>
                 <artifactId>kikaha-core</artifactId>
             </dependency>
             <dependency>
                 <groupId>io.skullabs.kikaha</groupId>
-                <version>2.1.4.Final</version>
+                <version>2.2.0-SNAPSHOT</version>
                 <artifactId>kikaha-uworkers</artifactId>
                 <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>io.skullabs.kikaha</groupId>
-                <version>2.1.4.Final</version>
+                <version>2.2.0-SNAPSHOT</version>
                 <artifactId>kikaha-urouting</artifactId>
             </dependency>
             <dependency>
                 <groupId>io.skullabs.kikaha</groupId>
-                <version>2.1.4.Final</version>
+                <version>2.2.0-SNAPSHOT</version>
                 <artifactId>kikaha-jackson</artifactId>
                 <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>io.skullabs.kikaha</groupId>
-                <version>2.1.4.Final</version>
+                <version>2.2.0-SNAPSHOT</version>
                 <artifactId>kikaha-mustache</artifactId>
                 <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>io.skullabs.kikaha</groupId>
-                <version>2.1.4.Final</version>
+                <version>2.2.0-SNAPSHOT</version>
                 <artifactId>kikaha-protobuf</artifactId>
                 <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>io.skullabs.kikaha</groupId>
-                <version>2.1.4.Final</version>
+                <version>2.2.0-SNAPSHOT</version>
                 <artifactId>kikaha-cloud-hazelcast</artifactId>
                 <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>io.skullabs.kikaha</groupId>
                 <artifactId>kikaha-db</artifactId>
-                <version>2.1.4.Final</version>
+                <version>2.2.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>io.skullabs.kikaha</groupId>
                 <artifactId>kikaha-rocker</artifactId>
-                <version>2.1.4.Final</version>
+                <version>2.2.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>io.skullabs.kikaha</groupId>
                 <artifactId>kikaha-cloud-aws-iam</artifactId>
-                <version>2.1.4.Final</version>
+                <version>2.2.0-SNAPSHOT</version>
                 <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>io.skullabs.kikaha</groupId>
                 <artifactId>kikaha-cloud-aws-ec2</artifactId>
-                <version>2.1.4.Final</version>
+                <version>2.2.0-SNAPSHOT</version>
                 <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>io.skullabs.kikaha</groupId>
                 <artifactId>kikaha-cloud-aws-alb</artifactId>
-                <version>2.1.4.Final</version>
+                <version>2.2.0-SNAPSHOT</version>
                 <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>io.skullabs.kikaha</groupId>
                 <artifactId>kikaha-cloud-aws-cloudwatch</artifactId>
-                <version>2.1.4.Final</version>
+                <version>2.2.0-SNAPSHOT</version>
                 <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>io.skullabs.kikaha</groupId>
                 <artifactId>kikaha-cloud-aws-lambda</artifactId>
-                <version>2.1.4.Final</version>
+                <version>2.2.0-SNAPSHOT</version>
                 <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>io.skullabs.kikaha</groupId>
                 <artifactId>kikaha-cloud-aws-lambda</artifactId>
-                <version>2.1.4.Final</version>
+                <version>2.2.0-SNAPSHOT</version>
                 <classifier>compact</classifier>
                 <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>io.skullabs.kikaha</groupId>
                 <artifactId>kikaha-cloud-aws-xray</artifactId>
-                <version>2.1.4.Final</version>
+                <version>2.2.0-SNAPSHOT</version>
                 <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>io.skullabs.kikaha</groupId>
                 <artifactId>kikaha-cloud-aws-sqs</artifactId>
-                <version>2.1.4.Final</version>
+                <version>2.2.0-SNAPSHOT</version>
                 <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>io.skullabs.kikaha</groupId>
                 <artifactId>kikaha-cloud-consul</artifactId>
-                <version>2.1.4.Final</version>
+                <version>2.2.0-SNAPSHOT</version>
                 <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>io.skullabs.kikaha</groupId>
                 <artifactId>kikaha-cloud-metrics</artifactId>
-                <version>2.1.4.Final</version>
+                <version>2.2.0-SNAPSHOT</version>
                 <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>io.skullabs.kikaha</groupId>
                 <artifactId>kikaha-cloud</artifactId>
-                <version>2.1.4.Final</version>
+                <version>2.2.0-SNAPSHOT</version>
                 <scope>compile</scope>
             </dependency>
             <dependency>
