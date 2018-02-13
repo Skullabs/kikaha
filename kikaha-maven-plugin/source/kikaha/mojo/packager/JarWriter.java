@@ -1,11 +1,20 @@
 package kikaha.mojo.packager;
 
-import static kikaha.mojo.packager.packager.*;
-import java.io.*;
-import java.util.*;
-import java.util.zip.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.apache.maven.plugin.MojoExecutionException;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
+import static kikaha.mojo.packager.packager.*;
 
 /**
  * Created by miere.teixeira on 05/12/2016.
@@ -18,14 +27,16 @@ public class JarWriter {
     final ZipOutputStream output;
     final Map<String, FileMerger> mergers;
     final String fileName;
+    final List<Pattern> filterPatterns;
 
-    public JarWriter( final String fileName ) throws FileNotFoundException {
+    public JarWriter( final String fileName, final List<String> filterPatterns ) throws FileNotFoundException {
         mergers = new HashMap<>();
         mergers.put( "META-INF/MANIFEST.MF", new ManifestMerger( "META-INF/MANIFEST.MF" ) );
         mergers.put( "META-INF/defaults.yml", new YmlConfigMerger( "META-INF/defaults.yml" ) );
         mergers.put( "conf/application.yml", new YmlConfigMerger( "conf/application.yml" ) );
         this.output = new ZipOutputStream( new FileOutputStream( fileName ) );
         this.fileName = fileName;
+        this.filterPatterns = filterPatterns.stream().map(Pattern::compile).collect(Collectors.toList());
     }
 
     public void mergeJar(final String path) throws MojoExecutionException {
@@ -40,6 +51,7 @@ public class JarWriter {
 
     public void addFile( final String name, final InputStream content ) {
         try {
+            if ( shouldIgnoreFile(name) ) return;
             final FileMerger writable = mergers.computeIfAbsent( name,
                 n-> n.startsWith(SERVICE_FILE_NAME) ? new SimpleMerger(n) : null );
             if ( writable != null )
@@ -67,7 +79,7 @@ public class JarWriter {
         try {
             for (final FileMerger merger : mergers.values()) {
                 final String merged = merger.merge();
-                add(merger.getFileName(), merged);
+                addMergedFile(merger.getFileName(), merged);
             }
             output.close();
         } catch (IOException e) {
@@ -75,7 +87,7 @@ public class JarWriter {
         }
     }
 
-    void add( final String name, final String content ) {
+    void addMergedFile( final String name, final String content ) {
         try {
             output.putNextEntry( new ZipEntry( name ) );
             final byte[] bytes = content.getBytes();
@@ -87,5 +99,12 @@ public class JarWriter {
         }
     }
 
-
+    private boolean shouldIgnoreFile( String name ) {
+        for ( Pattern re : this.filterPatterns )
+            if ( re.matcher(name).matches() ) {
+                System.out.println( "Ignoring " + name );
+                return true;
+            }
+        return false;
+    }
 }

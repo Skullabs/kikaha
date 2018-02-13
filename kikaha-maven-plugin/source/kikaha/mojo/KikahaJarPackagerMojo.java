@@ -17,9 +17,7 @@ import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
 
 import java.io.*;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Mojo(name = "jar",
         requiresDependencyResolution = ResolutionScope.COMPILE_PLUS_RUNTIME)
@@ -42,6 +40,9 @@ public class KikahaJarPackagerMojo extends AbstractMojo {
 
     @Parameter( defaultValue = "false", required = true)
     boolean enabled;
+
+    @Parameter( defaultValue = "true", required = true)
+    boolean removeSignedContent;
 
     @Parameter( defaultValue = "false", required = true)
     boolean force;
@@ -73,7 +74,8 @@ public class KikahaJarPackagerMojo extends AbstractMojo {
     private JarWriter createZipFile() throws MojoExecutionException {
         try {
             final String fileName = targetDirectory.getAbsolutePath() + File.separatorChar + jarFileName;
-            final JarWriter zipFile = new JarWriter(fileName);
+            final List<String> filterPatterns = removeSignedContent ? Arrays.asList(".*\\.SF$", ".*\\.RSA") : Collections.emptyList();
+            final JarWriter zipFile = new JarWriter(fileName, filterPatterns);
             return zipFile;
         } catch (FileNotFoundException e) {
             throw new MojoExecutionException( e.getMessage(), e );
