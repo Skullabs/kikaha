@@ -37,6 +37,7 @@ public class RewriteRoutesModule implements Module {
 	@Inject Config config;
 	List<SmartRouteRule> rewriteRoutes;
 	List<SmartRouteRule> reverseRoutes;
+	boolean isHttp2EnabledForProxy;
 
 	@PostConstruct
 	public void loadConfig(){
@@ -44,6 +45,7 @@ public class RewriteRoutesModule implements Module {
 		rewriteRoutes = configs.stream().map( c-> SmartRouteRule.from(c) ).collect(Collectors.toList());
 		configs = config.getConfigList("server.smart-routes.reverse");
 		reverseRoutes = configs.stream().map( c-> SmartRouteRule.from(c) ).collect(Collectors.toList());
+        isHttp2EnabledForProxy = config.getBoolean( "server.smart-routes.reverse-with-http2", true );
 	}
 
 	public void load(final Undertow.Builder server, final DeploymentContext context )
@@ -71,7 +73,9 @@ public class RewriteRoutesModule implements Module {
     private void deployReverseProxyRoutes(final DeploymentContext context) throws URISyntaxException, NoSuchAlgorithmException, NoSuchProviderException, KeyManagementException {
         var lastHandler = context.rootHandler();
         val ssl = new UndertowXnioSsl( Xnio.getInstance(), OptionMap.EMPTY );
-        val options = OptionMap.create(UndertowOptions.ENABLE_HTTP2, true);
+        val options = isHttp2EnabledForProxy
+            ? OptionMap.create(UndertowOptions.ENABLE_HTTP2, true)
+            : OptionMap.EMPTY ;
 
         if ( !reverseRoutes.isEmpty() )
             log.info( "Reverse Proxy rules:" );
