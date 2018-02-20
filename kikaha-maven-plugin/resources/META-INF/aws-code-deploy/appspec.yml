@@ -3,12 +3,8 @@ os: linux
 
 # files that should be deployed
 files:
-  # mandatory, in order to deployment work correctly
-  - source: lib
-    destination: /opt/application/lib
-  # mandatory, in order to deployment work correctly
-  - source: bin
-    destination: /opt/application/bin
+  - source: /
+    destination: /opt/application/
 
 # mandatory hooks
 hooks:
