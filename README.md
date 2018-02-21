@@ -1,5 +1,5 @@
 # Kikaha
-[![Stable Version](https://img.shields.io/badge/stable%20version-2.1.4.Final-green.svg?style=flat-square)](https://github.com/Skullabs/kikaha/releases)
+[![Stable Version](https://img.shields.io/badge/stable%20version-2.1.6.Final-green.svg?style=flat-square)](https://github.com/Skullabs/kikaha/releases)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.skullabs.kikaha/kikaha-parent/badge.svg?style=flat-square)](https://maven-badges.herokuapp.com/maven-central/io.skullabs.kikaha/kikaha-parent)
 [![Codeship Status](https://circleci.com/gh/Skullabs/kikaha.png?circle-token=65585c046fe1119aa73977da5eeaf0150b82ac9c)](https://circleci.com/gh/Skullabs/kikaha/)
 
