@@ -26,7 +26,7 @@
         <config.plugins.aws.s3.enabled>${config.plugins.aws.lambda.enabled}</config.plugins.aws.s3.enabled>
         <config.plugins.aws.s3.useCodeDeploy>false</config.plugins.aws.s3.useCodeDeploy>
         <config.plugins.aws.s3.codeDeployFolder>META-INF/aws-code-deploy/</config.plugins.aws.s3.codeDeployFolder>
-        <config.plugins.aws.s3.codeDeployApplicationName>${project.groupId}-${project.artifactId}</config.plugins.aws.s3.codeDeployApplicationName>
+        <config.plugins.aws.s3.codeDeployApplicationName>${project.groupId}-${project.artifactId}-${project.version}.zip</config.plugins.aws.s3.codeDeployApplicationName>
         <config.plugins.aws.s3.codeDeployDeploymentGroupName>production</config.plugins.aws.s3.codeDeployDeploymentGroupName>
         <config.plugins.aws.s3.region>${config.plugins.aws.lambda.region}</config.plugins.aws.s3.region>
         <config.plugins.aws.s3.bucket>default-bucket</config.plugins.aws.s3.bucket>
