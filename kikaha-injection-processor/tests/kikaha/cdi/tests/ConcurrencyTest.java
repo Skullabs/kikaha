@@ -11,8 +11,10 @@ import lombok.SneakyThrows;
 import lombok.val;
 
 import org.junit.After;
+import org.junit.Ignore;
 import org.junit.Test;
 
+@Ignore
 public class ConcurrencyTest {
 
 	final static int NUMBER_OF_CONSUMER = Runtime.getRuntime().availableProcessors();
