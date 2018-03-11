@@ -8,6 +8,9 @@ Kikaha is a micro container writen over the fast Undertow core. It was developed
 - provides a lightweight micro container (written over the powerful undertow core), as alternative environment to to run web applications
 - provide a set of undertow extensions to structure and initialize your application without writing a bunch of bootstraping lines of code, making easier to develop embedded applications
 
+> *Note*: This is the development branch. Features here will be available only at the next stable release.
+Please checkout the *version-2.1.x* if you are looking for the  source code of the latest stable version.
+
 ## Contributors
 - [Cesar Selonke](https://github.com/selonke)
 - [Ricardo Mattiazzi Baumgarter](https://github.com/ladraum)
@@ -31,4 +34,4 @@ Be a contributor and join our team. Kikaha need your help to provide the best to
 * [A JWT guide to Kikaha developers](https://github.com/Skullabs/kikaha-samples/tree/master/jwt) - early draft
 
 ### License
-Kikaha is released under [Apache 2.0 licensed](http://www.apache.org/licenses/LICENSE-2.0.html).
+Kikaha is released under [Apache 2.0 license](http://www.apache.org/licenses/LICENSE-2.0.html).
