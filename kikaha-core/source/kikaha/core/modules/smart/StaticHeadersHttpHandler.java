@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.Map.Entry;
 import io.undertow.server.*;
 import io.undertow.util.HttpString;
-import kikaha.core.url.URLMatcher;
+import kikaha.commons.url.URLMatcher;
 import lombok.RequiredArgsConstructor;
 
 /**

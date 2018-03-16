@@ -1,0 +1,115 @@
+# Default server configuration
+server:
+
+  # Websocket configuration
+  websocket:
+    default-serializer: "text/plain"
+    default-unserializer: "text/plain"
+    worker-threads: -1
+
+  # Module Loader configuration
+  modules:
+    enable-graceful-shutdown: true
+    graceful-shutdown-timeout: 300000
+
+    # The bellow list also represents the order that modules will be loaded
+    enabled-modules:
+      - http
+      - https
+      - cors
+      - security
+      - post-security
+      - undertow-basic-configuration
+      - metrics
+      - unnamed
+
+  # HTTP server mode
+  http:
+    host: '0.0.0.0'
+    port: 9000
+    enabled: true
+
+  # HTTPS server mode
+  https:
+    host: '0.0.0.0'
+    port: 9001
+    enabled: false
+    http2-mode: false
+
+    keystore: "server.keystore"
+    cert-security-provider: "TLS"
+    keystore-security-provider: "JKS"
+    password: "password"
+
+    redirect-http-to-https: true
+
+  # Undertow internals
+  undertow:
+    io-threads: -1
+    worker-threads: -1
+    buffer-size: 1024
+
+    server-options:
+      ENABLE_STATISTICS: false
+      RECORD_REQUEST_START_TIME: false
+      ALWAYS_SET_KEEP_ALIVE: true
+
+    socket-options:
+      BACKLOG: 20000
+
+  # Static asset routing
+  static:
+    enabled: false
+    location: "webapp"
+    webjar-enabled: false
+    webjar-url-prefix: "/assets/"
+
+  # Smart routes
+  smart-routes:
+    auth:
+      enabled: true
+      #login-form-enabled: false
+      #logout-url-enabled: false
+      #logout-http-method: "POST"
+    rewrite:
+    reverse:
+    filter:
+    cors:
+      enabled: false
+      always-allow-origin: false
+      always-allow-credentials: false
+      allowed-methods:
+      allowed-hosts:
+
+  auth:
+    fixed-auth:
+      username: "admin"
+      password: "admin"
+      role: "admin"
+
+    endpoints:
+      #login-page: "/auth/"
+      #logout-url: "/auth/logout"
+      error-page: "/auth/error/"
+      success-page: "/"
+      callback-url: "/auth/callback"
+      permission-denied-page: "/auth/permission-denied"
+
+    security-context-factory: kikaha.core.modules.security.DefaultSecurityContextFactory
+    session-id-manager: kikaha.core.modules.security.SessionCookie
+    session-store: kikaha.core.modules.security.StatelessSessionStore
+    authentication-failure-listener: kikaha.core.modules.security.SendChallengeFailureListener
+    authentication-success-listener: kikaha.core.modules.security.DefaultAuthenticationSuccessListener
+    # authentication-request-matcher:
+    password-encoder: kikaha.core.modules.security.PlainTextPasswordEncoder
+
+    identity-managers:
+      default: kikaha.core.modules.security.FixedUserAndPasswordIdentityManager
+      fixed: kikaha.core.modules.security.FixedUserAndPasswordIdentityManager
+
+    auth-mechanisms:
+      default: kikaha.core.modules.security.BasicAuthenticationMechanism
+      basic: kikaha.core.modules.security.BasicAuthenticationMechanism
+      form: kikaha.core.modules.security.FormAuthenticationMechanism
+
+    rules: []

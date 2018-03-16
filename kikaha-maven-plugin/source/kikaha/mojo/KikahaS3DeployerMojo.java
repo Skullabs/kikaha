@@ -12,7 +12,7 @@ import com.amazonaws.services.codedeploy.*;
 import com.amazonaws.services.codedeploy.model.*;
 import com.amazonaws.services.s3.*;
 import kikaha.config.*;
-import kikaha.core.util.Lang;
+import kikaha.commons.Lang;
 import kikaha.mojo.packager.*;
 import lombok.RequiredArgsConstructor;
 import org.apache.maven.plugin.*;

@@ -5,8 +5,8 @@ import io.undertow.util.Headers;
 
 import java.util.Map;
 
-import kikaha.core.url.StringCursor;
-import kikaha.core.url.URLMatcher;
+import kikaha.commons.url.StringCursor;
+import kikaha.commons.url.URLMatcher;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import lombok.extern.slf4j.Slf4j;

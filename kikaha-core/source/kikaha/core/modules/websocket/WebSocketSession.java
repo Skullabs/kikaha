@@ -6,7 +6,7 @@ import java.util.*;
 import java.util.concurrent.*;
 import io.undertow.websockets.core.*;
 import io.undertow.websockets.spi.WebSocketHttpExchange;
-import kikaha.core.url.URLMatcher;
+import kikaha.commons.url.URLMatcher;
 import lombok.*;
 import lombok.experimental.Accessors;
 

@@ -2,7 +2,7 @@ package kikaha.core.modules.smart;
 
 import io.undertow.server.HttpServerExchange;
 import io.undertow.server.handlers.proxy.LoadBalancingProxyClient;
-import kikaha.core.url.URLMatcher;
+import kikaha.commons.url.URLMatcher;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;

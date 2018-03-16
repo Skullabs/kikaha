@@ -5,7 +5,7 @@ import java.util.concurrent.ExecutorService;
 import io.undertow.websockets.WebSocketConnectionCallback;
 import io.undertow.websockets.core.*;
 import io.undertow.websockets.spi.WebSocketHttpExchange;
-import kikaha.core.url.URLMatcher;
+import kikaha.commons.url.URLMatcher;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

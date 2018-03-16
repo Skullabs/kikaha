@@ -3,6 +3,8 @@ package kikaha.core.modules.http;
 import io.undertow.Undertow;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
+import io.undertow.server.handlers.resource.ClassPathResourceManager;
+import io.undertow.server.handlers.resource.FileResourceManager;
 import io.undertow.server.handlers.resource.ResourceHandler;
 import io.undertow.server.handlers.resource.ResourceManager;
 import io.undertow.util.AttachmentKey;
@@ -10,15 +12,16 @@ import kikaha.config.Config;
 import kikaha.core.DeploymentContext;
 import kikaha.core.modules.Module;
 import kikaha.core.modules.undertow.BodyResponseSender;
-import kikaha.core.url.URLMatcher;
-import kikaha.core.util.LastValueOnlyMap;
-import kikaha.core.util.SystemResource;
+import kikaha.commons.url.URLMatcher;
+import kikaha.commons.LastValueOnlyMap;
+import kikaha.commons.SystemResource;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -62,7 +65,7 @@ public class StaticResourceModule implements Module {
 			final String urlPrefix = staticConfig.getString("webjar-url-prefix").replaceFirst( "/$", "" );
 			log.info( "Enabling static routing for webjars at '" + urlPrefix + "'" );
 			final String webJarInternalLocation = staticConfig.getString("webjar-location", DEFAULT_WEBJAR_LOCATION);
-			final ResourceManager resourceManager = SystemResource.loadResourceManagerFor( webJarInternalLocation );
+			final ResourceManager resourceManager = loadResourceManagerFor( webJarInternalLocation );
 			final HttpHandler webjarHandler = new WebJarHttpHandler(
 				new ResourceHandler(resourceManager, new WebJarNotFound( context.fallbackHandler() ) ),
 				URLMatcher.compile( urlPrefix + "/{path}" ),
@@ -74,13 +77,21 @@ public class StaticResourceModule implements Module {
 	private void deployDefaultStaticRouting(final Config staticConfig, DeploymentContext context){
 		final String location = staticConfig.getString("location");
 		log.info( "Enabling static routing at folder: " + location );
-		final ResourceManager resourceManager = SystemResource.loadResourceManagerFor( location );
+		final ResourceManager resourceManager = loadResourceManagerFor( location );
 		final HttpHandler fallbackHandler = context.fallbackHandler();
 		final ResourceHandler handler = new ResourceHandler(resourceManager, fallbackHandler);
 		final String welcomeFile = staticConfig.getString("welcome-file", "index.html");
 		handler.setWelcomeFiles( welcomeFile );
 		context.fallbackHandler( handler );
 	}
+
+    private static ResourceManager loadResourceManagerFor(String location) {
+        final File locationAsFile = new File(location);
+        if ( locationAsFile.exists() )
+            return new FileResourceManager(locationAsFile, 100, SystemResource.FILE_NAMES_ARE_CASE_SENSITIVE );
+        final ClassLoader classLoader = SystemResource.class.getClassLoader();
+        return new ClassPathResourceManager( classLoader, location );
+    }
 }
 
 @RequiredArgsConstructor

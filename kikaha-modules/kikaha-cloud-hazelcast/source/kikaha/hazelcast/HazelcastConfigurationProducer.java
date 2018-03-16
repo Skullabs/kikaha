@@ -2,7 +2,7 @@ package kikaha.hazelcast;
 
 import com.hazelcast.config.*;
 import kikaha.cloud.smart.ServiceRegistry.ApplicationData;
-import kikaha.core.util.SystemResource;
+import kikaha.commons.SystemResource;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -13,8 +13,8 @@ import javax.inject.Singleton;
 import java.io.IOException;
 import java.io.InputStream;
 
-import static kikaha.core.util.Lang.convert;
-import static kikaha.core.util.Lang.isUndefined;
+import static kikaha.commons.Lang.convert;
+import static kikaha.commons.Lang.isUndefined;
 
 /**
  * Created by miere.teixeira on 16/06/2017.

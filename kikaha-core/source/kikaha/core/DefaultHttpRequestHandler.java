@@ -2,7 +2,7 @@ package kikaha.core;
 
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
-import kikaha.core.url.URL;
+import kikaha.commons.url.URL;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

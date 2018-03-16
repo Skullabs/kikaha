@@ -1,6 +1,6 @@
 package kikaha.uworkers.core;
 
-import kikaha.core.util.Threads;
+import kikaha.commons.Threads;
 import kikaha.uworkers.api.Exchange;
 import lombok.SneakyThrows;
 import org.junit.After;

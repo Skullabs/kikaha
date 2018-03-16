@@ -1,6 +1,6 @@
 package kikaha.cloud.aws.alb;
 
-import static kikaha.core.util.Lang.convert;
+import static kikaha.commons.Lang.convert;
 import java.io.IOException;
 import java.util.List;
 import javax.inject.*;

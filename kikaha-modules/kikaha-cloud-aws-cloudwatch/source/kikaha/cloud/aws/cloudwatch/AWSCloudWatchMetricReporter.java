@@ -1,6 +1,6 @@
 package kikaha.cloud.aws.cloudwatch;
 
-import static kikaha.core.util.Lang.convert;
+import static kikaha.commons.Lang.convert;
 import java.math.*;
 import java.util.*;
 import java.util.Map.Entry;

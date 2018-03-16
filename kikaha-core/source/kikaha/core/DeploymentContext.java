@@ -4,7 +4,7 @@ import javax.annotation.PostConstruct;
 import javax.inject.*;
 import io.undertow.server.HttpHandler;
 import io.undertow.util.Methods;
-import kikaha.core.url.*;
+import kikaha.commons.url.*;
 import lombok.*;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;

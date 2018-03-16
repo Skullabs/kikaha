@@ -1,7 +1,7 @@
 package kikaha.cloud.consul;
 
 import static java.lang.String.format;
-import static kikaha.core.util.Lang.*;
+import static kikaha.commons.Lang.*;
 import java.io.IOException;
 import java.util.*;
 import javax.inject.*;
@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.type.*;
 import kikaha.cloud.smart.ServiceRegistry;
 import kikaha.cloud.smart.ServiceRegistry.ApplicationData;
 import kikaha.config.Config;
-import kikaha.core.util.Tuple;
+import kikaha.commons.Tuple;
 import kikaha.urouting.serializers.jackson.Jackson;
 import lombok.extern.slf4j.Slf4j;
 

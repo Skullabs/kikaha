@@ -6,8 +6,8 @@ import io.undertow.security.idm.Credential;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.util.*;
 import kikaha.core.modules.security.*;
-import kikaha.core.url.URL;
-import kikaha.core.util.Tuple;
+import kikaha.commons.url.URL;
+import kikaha.commons.Tuple;
 import kikaha.urouting.api.Mimes;
 import lombok.Data;
 

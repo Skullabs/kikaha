@@ -1,6 +1,6 @@
 package kikaha.cloud.consul;
 
-import kikaha.core.util.Tuple;
+import kikaha.commons.Tuple;
 
 import java.io.*;
 import java.net.*;

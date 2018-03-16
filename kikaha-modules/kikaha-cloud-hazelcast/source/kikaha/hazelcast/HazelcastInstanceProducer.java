@@ -3,12 +3,10 @@ package kikaha.hazelcast;
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.*;
 import javax.inject.*;
-import java.io.InputStream;
+
 import com.hazelcast.client.config.ClientConfig;
-import com.hazelcast.config.XmlConfigBuilder;
 import com.hazelcast.core.*;
 import kikaha.config.Config;
-import kikaha.core.util.SystemResource;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 

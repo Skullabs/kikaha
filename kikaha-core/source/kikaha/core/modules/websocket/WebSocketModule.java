@@ -9,8 +9,8 @@ import kikaha.core.DeploymentContext;
 import kikaha.core.modules.Module;
 import kikaha.core.modules.http.ContentType;
 import kikaha.core.modules.http.WebResource;
-import kikaha.core.url.URL;
-import kikaha.core.url.URLMatcher;
+import kikaha.commons.url.URL;
+import kikaha.commons.url.URLMatcher;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,6 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-import java.util.function.BinaryOperator;
 
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toMap;

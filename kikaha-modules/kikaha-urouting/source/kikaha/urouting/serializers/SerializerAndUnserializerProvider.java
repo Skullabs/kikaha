@@ -2,11 +2,9 @@ package kikaha.urouting.serializers;
 
 import java.io.IOException;
 import java.util.Map;
-import kikaha.core.url.URL;
+import kikaha.commons.url.URL;
 import kikaha.urouting.UnsupportedMediaTypeException;
 import kikaha.urouting.api.*;
-import kikaha.urouting.serializers.Serializer;
-import kikaha.urouting.serializers.Unserializer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

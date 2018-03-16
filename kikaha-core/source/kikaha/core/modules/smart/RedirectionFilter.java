@@ -3,7 +3,7 @@ package kikaha.core.modules.smart;
 import java.util.*;
 import io.undertow.server.HttpServerExchange;
 import kikaha.core.modules.smart.FilterChainFactory.FilterChain;
-import kikaha.core.url.URLMatcher;
+import kikaha.commons.url.URLMatcher;
 import kikaha.core.modules.undertow.Redirect;
 import lombok.RequiredArgsConstructor;
 

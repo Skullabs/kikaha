@@ -9,7 +9,7 @@ import io.undertow.server.handlers.proxy.ProxyHandler;
 import kikaha.config.Config;
 import kikaha.core.DeploymentContext;
 import kikaha.core.modules.Module;
-import kikaha.core.url.URLMatcher;
+import kikaha.commons.url.URLMatcher;
 import lombok.Getter;
 import lombok.experimental.var;
 import lombok.extern.slf4j.Slf4j;

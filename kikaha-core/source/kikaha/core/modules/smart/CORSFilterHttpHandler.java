@@ -4,7 +4,7 @@ import java.net.*;
 import java.util.*;
 import io.undertow.server.*;
 import io.undertow.util.*;
-import kikaha.core.url.URLMatcher;
+import kikaha.commons.url.URLMatcher;
 import lombok.RequiredArgsConstructor;
 
 /**

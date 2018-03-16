@@ -1,7 +1,6 @@
 package kikaha.uworkers.core;
 
-import kikaha.core.util.Threads;
-import lombok.*;
+import kikaha.commons.Threads;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 

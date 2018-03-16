@@ -1,7 +1,7 @@
 package kikaha.core.modules.smart;
 
 import java.util.Set;
-import kikaha.core.url.URLMatcher;
+import kikaha.commons.url.URLMatcher;
 import lombok.AllArgsConstructor;
 
 /**

@@ -1,0 +1,90 @@
+server:
+
+  https:
+    redirect-to-http: true
+
+  undertow:
+    io-threads: -1
+    worker-threads: 32
+    buffer-size: 16384
+
+    server-options:
+      ENABLE_STATISTICS: false
+      RECORD_REQUEST_START_TIME: false
+      ALWAYS_SET_KEEP_ALIVE: true
+
+    socket-options:
+      BACKLOG: 10000
+
+  static:
+    enabled: true
+    webjar-enabled: true
+
+  smart-routes:
+
+    cors:
+      enabled: true
+      always-allow-origin: false
+      allowed-origins:
+        - "http://localhost"
+        - "http://localhost:9000"
+      allowed-methods:
+        - "GET"
+
+    rewrite:
+      -
+        virtual-host: "test.localdomain"
+        path: "/admin/{something}"
+        to: "/test/{something}/admin"
+      -
+        path: "/admin/{something}"
+        to: "/test/{something}/admin"
+      -
+        virtual-host: "test.localdomain"
+        to: "/test/{something}/admin"
+      -
+        path: "/{domain}-{action}.jsp?id={id}"
+        to: "/{domain}/{id}/{action}/"
+
+    reverse:
+      - path: "/reverse/{domain}-{action}.jsp?id={id}"
+        to: "http://localhost:8765"
+
+    filter:
+      - path: "/filter/{action}/{id}/"
+        to: "http://localhost/do/{{action}}?id={{id}}"
+
+    static-headers:
+      - url: "/static/url"
+        headers:
+          Location: "/invalid/url"
+
+  auth:
+
+    fixed-auth:
+      username: "test"
+      password: "t357"
+      role: "testable-role"
+
+    endpoints:
+      login-template: "default-login.html"
+      login-page: "/auth/"
+      logout-url: "/auth/logout"
+
+    default-excluded-patterns:
+      - "/ignore1/*"
+      - "/assets/*"
+
+    rules:
+      - pattern: "/*"
+        identity-manager:
+          - "default"
+        auth-mechanisms:
+          - "basic"
+          - "basic"
+        expected-roles:
+          - "minimum-access-role"
+        exclude-patterns:
+          - "/ignore2/*"
+          - "/ignore3*"
+          - "/"

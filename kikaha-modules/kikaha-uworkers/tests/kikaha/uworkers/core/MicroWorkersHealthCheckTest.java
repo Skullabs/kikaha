@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.doReturn;
 
 import com.codahale.metrics.health.HealthCheck.Result;
-import kikaha.core.util.Threads;
+import kikaha.commons.Threads;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.mockito.*;

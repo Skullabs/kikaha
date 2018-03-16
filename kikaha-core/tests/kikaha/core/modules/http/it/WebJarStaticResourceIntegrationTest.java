@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import kikaha.core.test.KikahaServerRunner;
-import kikaha.core.util.SystemResource;
+import kikaha.commons.SystemResource;
 import okhttp3.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;

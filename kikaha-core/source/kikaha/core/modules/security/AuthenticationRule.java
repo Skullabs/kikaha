@@ -2,7 +2,7 @@ package kikaha.core.modules.security;
 
 import java.util.*;
 import kikaha.core.cdi.helpers.TinyList;
-import kikaha.core.url.URLMatcher;
+import kikaha.commons.url.URLMatcher;
 import lombok.*;
 import lombok.experimental.Accessors;
 

@@ -1,6 +1,6 @@
 package kikaha.uworkers.core;
 
-import kikaha.core.util.Threads;
+import kikaha.commons.Threads;
 import kikaha.uworkers.api.WorkerRef;
 import org.junit.Before;
 import org.junit.Test;

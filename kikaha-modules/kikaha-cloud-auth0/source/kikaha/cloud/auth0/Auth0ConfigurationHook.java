@@ -6,7 +6,7 @@ import javax.inject.*;
 import io.undertow.server.HttpServerExchange;
 import kikaha.core.modules.security.*;
 import kikaha.core.modules.security.login.AuthLoginHttpHandler;
-import kikaha.core.util.ChainedMap;
+import kikaha.commons.ChainedMap;
 import lombok.extern.slf4j.Slf4j;
 
 /**

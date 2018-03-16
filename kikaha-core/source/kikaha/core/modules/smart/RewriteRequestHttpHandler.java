@@ -2,7 +2,7 @@ package kikaha.core.modules.smart;
 
 import java.util.*;
 import io.undertow.server.*;
-import kikaha.core.url.URLMatcher;
+import kikaha.commons.url.URLMatcher;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

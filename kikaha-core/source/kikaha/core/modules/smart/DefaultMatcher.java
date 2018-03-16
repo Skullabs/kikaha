@@ -3,11 +3,10 @@ package kikaha.core.modules.smart;
 import java.util.*;
 import io.undertow.server.HttpServerExchange;
 import kikaha.core.cdi.helpers.TinyList;
-import kikaha.core.util.Lang;
 import lombok.*;
 
 import static java.lang.String.join;
-import static kikaha.core.util.Lang.convert;
+import static kikaha.commons.Lang.convert;
 
 @RequiredArgsConstructor
 public class DefaultMatcher implements RequestMatcher {

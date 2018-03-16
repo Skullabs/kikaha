@@ -9,7 +9,7 @@ import io.undertow.Undertow;
 import io.undertow.server.HttpHandler;
 import kikaha.core.DeploymentContext;
 import kikaha.core.modules.Module;
-import kikaha.core.util.Threads;
+import kikaha.commons.Threads;
 import kikaha.urouting.UndertowHelper;
 import kikaha.uworkers.api.*;
 import lombok.Getter;

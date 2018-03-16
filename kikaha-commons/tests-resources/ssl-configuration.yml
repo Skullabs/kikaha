@@ -1,0 +1,8 @@
+server:
+  https:
+    keystore: "server.keystore"
+    truststore: "server.truststore"
+    cert-security-provider: "TLS"
+    keystore-security-provider: "JKS"
+    password: "password"
+    enabled: true

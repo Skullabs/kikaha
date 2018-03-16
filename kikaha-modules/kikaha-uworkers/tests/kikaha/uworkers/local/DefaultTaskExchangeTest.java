@@ -1,6 +1,6 @@
 package kikaha.uworkers.local;
 
-import kikaha.core.util.Threads;
+import kikaha.commons.Threads;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.Value;

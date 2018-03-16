@@ -1,6 +1,5 @@
 package kikaha.core.modules.security;
 
-import io.undertow.security.idm.Account;
 import io.undertow.security.idm.Credential;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.util.FlexBase64;
@@ -13,7 +12,7 @@ import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
 import kikaha.config.Config;
-import kikaha.core.url.StringCursor;
+import kikaha.commons.url.StringCursor;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.PostConstruct;

@@ -8,7 +8,7 @@ import java.util.*;
 import java.util.concurrent.*;
 import io.undertow.websockets.core.WebSocketChannel;
 import io.undertow.websockets.spi.WebSocketHttpExchange;
-import kikaha.core.url.URLMatcher;
+import kikaha.commons.url.URLMatcher;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
