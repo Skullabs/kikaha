@@ -9,9 +9,6 @@ import javax.enterprise.inject.Typed;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import kikaha.urouting.api.ContextProducer;
-import kikaha.urouting.api.ContextProducerFactory;
-
 @Singleton
 @SuppressWarnings("rawtypes")
 public class ContextProducerFactoryLoader {

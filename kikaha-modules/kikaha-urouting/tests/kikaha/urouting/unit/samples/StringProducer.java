@@ -1,6 +1,6 @@
 package kikaha.urouting.unit.samples;
 
-import kikaha.urouting.api.ContextProducer;
+import kikaha.urouting.ContextProducer;
 import io.undertow.server.HttpServerExchange;
 
 import javax.enterprise.inject.Typed;

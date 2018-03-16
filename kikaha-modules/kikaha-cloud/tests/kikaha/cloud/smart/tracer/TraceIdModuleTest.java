@@ -1,12 +1,10 @@
 package kikaha.cloud.smart.tracer;
 
-import kikaha.cloud.smart.tracer.TraceId;
-import kikaha.cloud.smart.tracer.TraceIdModule;
 import kikaha.config.Config;
 import kikaha.core.DeploymentContext;
 import kikaha.core.test.KikahaRunner;
-import kikaha.urouting.api.ContextProducer;
-import kikaha.urouting.api.ContextProducerFactory;
+import kikaha.urouting.ContextProducer;
+import kikaha.urouting.ContextProducerFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

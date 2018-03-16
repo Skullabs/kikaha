@@ -1,12 +1,11 @@
 package kikaha.urouting;
 
-import kikaha.urouting.api.DefaultResponse;
 import kikaha.urouting.api.ExceptionHandler;
 import kikaha.urouting.api.Response;
 
 import javax.inject.Singleton;
 
-import static kikaha.urouting.api.DefaultResponse.response;
+import static kikaha.urouting.api.Response.response;
 
 /**
  *

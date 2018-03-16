@@ -7,7 +7,7 @@ import com.google.protobuf.Message;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.util.Headers;
 import kikaha.core.modules.http.ContentType;
-import kikaha.urouting.api.Serializer;
+import kikaha.urouting.serializers.Serializer;
 
 /**
  * @author: miere.teixeira

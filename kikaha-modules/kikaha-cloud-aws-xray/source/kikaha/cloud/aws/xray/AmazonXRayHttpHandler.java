@@ -57,6 +57,6 @@ class SegmentSender implements ResponseCommitListener {
 		if ( contentLength > -1 )
 			attributes.put( "content_length", contentLength );
 
-		segment.putHttp( "response", attributes );
+		segment.putHttp( "create", attributes );
 	}
 }

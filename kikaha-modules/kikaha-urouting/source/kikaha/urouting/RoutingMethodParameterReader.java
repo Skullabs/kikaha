@@ -10,6 +10,10 @@ import io.undertow.util.Headers;
 import io.undertow.util.PathTemplateMatch;
 import kikaha.config.Config;
 import kikaha.urouting.api.*;
+import kikaha.urouting.api.converter.ConversionException;
+import kikaha.urouting.api.converter.ConverterFactory;
+import kikaha.urouting.serializers.SerializerAndUnserializerProvider;
+import kikaha.urouting.serializers.Unserializer;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,9 +35,12 @@ import static kikaha.urouting.RoutingMethodParameterReader.ContentTypePriority.C
 public class RoutingMethodParameterReader {
 
 	@Inject Config kikahaConf;
-	@Inject ConverterFactory converterFactory;
-	@Inject ContextProducerFactory contextProducerFactory;
-	@Inject SerializerAndUnserializerProvider serializerAndUnserializerProvider;
+	@Inject
+    ConverterFactory converterFactory;
+	@Inject
+    ContextProducerFactory contextProducerFactory;
+	@Inject
+    SerializerAndUnserializerProvider serializerAndUnserializerProvider;
 
 	@Getter String defaultEncoding;
 	@Getter String defaultContentType;

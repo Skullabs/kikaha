@@ -1,8 +1,8 @@
 package kikaha.urouting.unit;
 
 import kikaha.core.test.KikahaRunner;
-import kikaha.urouting.api.ContextProducer;
-import kikaha.urouting.api.ContextProducerFactory;
+import kikaha.urouting.ContextProducer;
+import kikaha.urouting.ContextProducerFactory;
 import kikaha.urouting.api.RoutingException;
 import kikaha.urouting.unit.samples.StringProducer;
 import org.junit.Test;

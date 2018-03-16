@@ -16,6 +16,6 @@ public class AsyncResponseProducer implements ContextProducer<AsyncResponse> {
 
 	@Override
 	public AsyncResponse produce( HttpServerExchange exchange ) throws RoutingException {
-		return new AsyncResponse( exchange, responseWriter, exceptionHandler );
+		return new DefaultAsyncResponse( exchange, responseWriter, exceptionHandler );
 	}
 }

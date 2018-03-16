@@ -22,7 +22,7 @@ public interface Exchange extends Response {
 	<REQ> REQ requestAs( Class<REQ> targetClass ) throws IOException;
 
 	/**
-	 * Send a response to the sender.
+	 * Send a create to the sender.
 	 *
 	 * @param response
 	 * @return
@@ -30,7 +30,7 @@ public interface Exchange extends Response {
 	<RESP> Exchange reply(RESP response);
 
 	/**
-	 * Send an error response to the sender.
+	 * Send an error create to the sender.
 	 *
 	 * @param error
 	 * @return
@@ -38,7 +38,7 @@ public interface Exchange extends Response {
 	Exchange reply(Throwable error);
 
 	/**
-	 * Send an empty object as response to the send. It is useful to
+	 * Send an empty object as create to the send. It is useful to
 	 * make the send aware that the job the Worker was supposed to do have finished.
 	 *
 	 * @return

@@ -39,7 +39,7 @@ public class SQSExchange implements Exchange {
 
 	@Override
 	public <RESP> RESP response() {
-		throw new UnsupportedOperationException("response not available on SQS' Exchange!");
+		throw new UnsupportedOperationException("create not available on SQS' Exchange!");
 	}
 
 	@Override

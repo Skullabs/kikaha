@@ -1,12 +1,11 @@
 package kikaha.urouting.unit.samples;
 
-import java.util.concurrent.*;
-
-import kikaha.urouting.unit.User;
 import kikaha.urouting.api.*;
+import kikaha.urouting.unit.User;
 
-import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Singleton
 @Path( "{contentType}/users" )
@@ -34,7 +33,7 @@ public class PersistenceRoutes {
 	@GET
 	@Path( "async" )
 	public void doAsyncSearch( final AsyncResponse response ) {
-		executor.submit( () -> response.write( DefaultResponse.notModified() ) );
+		executor.submit( () -> response.write( Response.notModified() ) );
 	}
 
 	@GET
@@ -42,7 +41,7 @@ public class PersistenceRoutes {
 	@Produces( Mimes.JSON )
 	public void doAsyncSearchById(
 		final AsyncResponse response, @PathParam( "id" ) final Long id ) {
-		executor.submit( () -> response.write( DefaultResponse.notModified() ) );
+		executor.submit( () -> response.write( Response.notModified() ) );
 	}
 
 	@POST

@@ -11,6 +11,6 @@ public class FailureExceptionHandler implements ExceptionHandler<FailureExceptio
 
 	@Override
 	public Response handle( FailureException exception ) {
-		return DefaultResponse.serverError( "Failed!" );
+		return Response.serverError( "Failed!" );
 	}
 }

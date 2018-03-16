@@ -1,12 +1,15 @@
 package kikaha.urouting.it.context;
 
 
-import static kikaha.urouting.api.DefaultResponse.ok;
-import javax.inject.*;
 import io.undertow.security.idm.Account;
 import io.undertow.server.HttpServerExchange;
-import kikaha.core.modules.security.*;
+import kikaha.core.modules.security.SecurityContext;
+import kikaha.core.modules.security.Session;
 import kikaha.urouting.api.*;
+
+import javax.inject.Singleton;
+
+import static kikaha.urouting.api.Response.ok;
 
 @Singleton
 public class ContextualParametersResource {

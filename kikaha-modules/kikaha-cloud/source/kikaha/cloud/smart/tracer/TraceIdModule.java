@@ -6,7 +6,7 @@ import io.undertow.util.HttpString;
 import kikaha.config.Config;
 import kikaha.core.DeploymentContext;
 import kikaha.core.modules.Module;
-import kikaha.urouting.api.ContextProducerFactory;
+import kikaha.urouting.ContextProducerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

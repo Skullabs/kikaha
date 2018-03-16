@@ -8,6 +8,7 @@ import io.undertow.server.HttpServerExchange;
 import kikaha.core.NotFoundHandler;
 import kikaha.core.modules.http.ContentType;
 import kikaha.urouting.api.*;
+import kikaha.urouting.serializers.Serializer;
 
 @ContentType( Mimes.HTML )
 @Singleton

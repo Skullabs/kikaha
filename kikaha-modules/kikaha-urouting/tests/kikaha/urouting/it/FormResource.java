@@ -12,6 +12,6 @@ public class FormResource {
 
 	@GET
 	public Response sendOk(){
-		return DefaultResponse.ok();
+		return Response.ok();
 	}
 }

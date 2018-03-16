@@ -43,7 +43,7 @@ public class WrappedExchange implements Exchange {
 
 	@Override
 	public <RESP> RESP response() {
-		throw new UnsupportedOperationException("response not available here!");
+		throw new UnsupportedOperationException("create not available here!");
 	}
 
 	@Override

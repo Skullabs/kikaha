@@ -3,10 +3,7 @@ package kikaha.urouting.unit;
 import kikaha.core.test.KikahaRunner;
 import kikaha.urouting.*;
 import kikaha.urouting.api.Mimes;
-import kikaha.urouting.api.Serializer;
-import kikaha.urouting.api.Unserializer;
-import kikaha.urouting.serializers.PlainTextSerializer;
-import kikaha.urouting.serializers.PlainTextUnserializer;
+import kikaha.urouting.serializers.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -23,7 +20,7 @@ import static org.junit.Assert.assertTrue;
 public class SerializerAndUnserializerProviderTest {
 
 	@Inject
-	SerializerAndUnserializerProvider provider;
+    SerializerAndUnserializerProvider provider;
 
 	@Test
 	public void ensureThatCanRetrieveAValidSerializerForTEXTPLAIN() throws IOException {

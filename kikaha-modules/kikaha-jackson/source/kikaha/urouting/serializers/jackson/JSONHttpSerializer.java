@@ -7,6 +7,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.undertow.server.HttpServerExchange;
 import kikaha.core.modules.http.ContentType;
 import kikaha.urouting.api.*;
+import kikaha.urouting.serializers.Serializer;
+import kikaha.urouting.serializers.Unserializer;
 
 @ContentType(Mimes.JSON)
 @Singleton

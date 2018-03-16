@@ -79,7 +79,7 @@ class RESTFulUWorkerResponse implements BiConsumer<Response.UndefinedObject, Thr
         try {
             sendResponse( undefinedObject, throwable );
         } catch ( Throwable cause ) {
-            log.error( "Could not send response", cause );
+            log.error( "Could not send create", cause );
         } finally {
             exchange.endExchange();
         }

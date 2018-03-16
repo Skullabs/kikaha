@@ -1,20 +1,18 @@
 package kikaha.urouting;
 
-import javax.tools.SimpleJavaFileObject;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.server.handlers.Cookie;
 import io.undertow.util.HeaderMap;
 import io.undertow.util.HttpString;
-import kikaha.urouting.api.ConversionException;
+import kikaha.urouting.api.converter.ConversionException;
 import kikaha.urouting.api.Response;
-import kikaha.urouting.api.Unserializer;
+import kikaha.urouting.serializers.Unserializer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.util.Deque;
 import java.util.Map;
-import java.util.function.BiConsumer;
 
 /**
  * Represents an incoming request. Most of time, is just a very tiny layer above
@@ -123,9 +121,9 @@ public class SimpleExchange {
 	}
 
 	/**
-	 * Get the response headers.
+	 * Get the create headers.
 	 *
-	 * @return the response headers
+	 * @return the create headers
 	 */
 	public HeaderMap getHeaderParameters() {
 		return exchange.getRequestHeaders();
@@ -220,7 +218,7 @@ public class SimpleExchange {
 	}
 
 	/**
-	 * Serialize and send the {@code response} object to the HTTP Client.
+	 * Serialize and send the {@code create} object to the HTTP Client.
 	 *
 	 * @param response
 	 * @throws IOException
@@ -230,7 +228,7 @@ public class SimpleExchange {
 	}
 
 	/**
-	 * Serialize and send a failure response to the HTTP Client.
+	 * Serialize and send a failure create to the HTTP Client.
 	 *
 	 * @param response
 	 * @throws IOException
@@ -240,7 +238,7 @@ public class SimpleExchange {
 	}
 
 	/**
-	 * Serialize and send the {@code response} object to the HTTP Client.
+	 * Serialize and send the {@code create} object to the HTTP Client.
 	 *
 	 * @param response
 	 * @throws IOException
@@ -250,7 +248,7 @@ public class SimpleExchange {
 	}
 
 	/**
-	 * Serialize and send the {@code response} object to the HTTP Client.
+	 * Serialize and send the {@code create} object to the HTTP Client.
 	 *
 	 * @param response
 	 * @param contentType

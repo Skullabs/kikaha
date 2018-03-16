@@ -1,19 +1,17 @@
 package kikaha.urouting.serializers;
 
 import io.undertow.server.HttpServerExchange;
-import kikaha.urouting.api.AbstractUnserializer;
 import kikaha.core.modules.http.ContentType;
 import kikaha.urouting.api.Mimes;
-import kikaha.urouting.api.Unserializer;
 
 import javax.enterprise.inject.Typed;
 import javax.inject.Singleton;
 import java.io.IOException;
-import java.io.Reader;
 
 @ContentType(Mimes.PLAIN_TEXT)
 @Singleton
 @Typed( Unserializer.class )
+@SuppressWarnings("unchecked")
 public class PlainTextUnserializer implements Unserializer {
 
 	@Override

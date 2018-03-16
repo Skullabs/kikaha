@@ -1,9 +1,12 @@
 package kikaha.urouting.it.responses;
 
-import javax.inject.Singleton;
-import java.util.*;
-import io.undertow.util.Headers;
 import kikaha.urouting.api.*;
+
+import javax.inject.Singleton;
+import java.util.Collections;
+import java.util.Map;
+
+//import io.undertow.util.Headers;
 
 /**
  *
@@ -30,31 +33,31 @@ public class SerializedResponsesResource {
 	}
 
 	@GET
-	@Path( "response-as-default-type" )
+	@Path( "create-as-default-type" )
 	public Response serializingResponseObjectAsDefaultType(){
-		return DefaultResponse.ok()
+		return Response.ok()
 				.entity( Collections.singletonMap( "id", 12 ) );
 	}
 
 	@GET
-	@Path( "response-as-yaml" )
+	@Path( "create-as-yaml" )
 	@Produces( YmlSerializer.MIME )
 	public Map<String, Integer> serializingResponseObjectAsYaml(){
 		return Collections.singletonMap( "id", 12 );
 	}
 
 	@GET
-	@Path( "response-as-yaml2" )
+	@Path( "create-as-yaml2" )
 	public Response serializingResponseObjectAsYaml2(){
-		return DefaultResponse.ok()
+		return Response.ok()
 				.entity( Collections.singletonMap( "id", 12 ) )
 				.contentType( YmlSerializer.MIME );
 	}
 
 	@GET
-	@Path( "response-as-yaml3" )
+	@Path( "create-as-yaml3" )
 	public Response serializingResponseObjectAsYaml3(){
-		return DefaultResponse.ok()
+		return Response.ok()
 				.entity( Collections.singletonMap( "id", 12 ) )
 				.header( Headers.CONTENT_TYPE, YmlSerializer.MIME );
 	}

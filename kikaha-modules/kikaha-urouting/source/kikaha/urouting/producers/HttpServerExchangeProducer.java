@@ -1,7 +1,7 @@
 package kikaha.urouting.producers;
 
 import io.undertow.server.HttpServerExchange;
-import kikaha.urouting.api.ContextProducer;
+import kikaha.urouting.ContextProducer;
 
 import javax.enterprise.inject.Typed;
 import javax.inject.Singleton;

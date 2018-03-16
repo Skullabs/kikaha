@@ -3,7 +3,7 @@ package kikaha.urouting.producers;
 import io.undertow.server.HttpServerExchange;
 import kikaha.core.modules.security.SecurityContext;
 import kikaha.core.modules.security.Session;
-import kikaha.urouting.api.ContextProducer;
+import kikaha.urouting.ContextProducer;
 import kikaha.urouting.api.RoutingException;
 
 import javax.enterprise.inject.Typed;

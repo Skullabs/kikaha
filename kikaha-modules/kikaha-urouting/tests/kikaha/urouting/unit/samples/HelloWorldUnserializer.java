@@ -4,7 +4,7 @@ import javax.inject.Singleton;
 import java.io.IOException;
 import io.undertow.server.HttpServerExchange;
 import kikaha.core.modules.http.ContentType;
-import kikaha.urouting.api.Unserializer;
+import kikaha.urouting.serializers.Unserializer;
 import lombok.Getter;
 
 /**

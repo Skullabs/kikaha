@@ -28,6 +28,7 @@
     <module>kikaha-cloud-metrics</module>
     <module>kikaha-uworkers</module>
     <module>kikaha-urouting</module>
+    <module>kikaha-urouting-api</module>
     <module>kikaha-mustache</module>
     <module>kikaha-protobuf</module>
     <module>kikaha-jackson</module>

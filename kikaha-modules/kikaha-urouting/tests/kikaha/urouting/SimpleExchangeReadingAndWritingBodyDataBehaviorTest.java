@@ -3,12 +3,11 @@ package kikaha.urouting;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.util.Headers;
 import kikaha.config.Config;
-import kikaha.config.ConfigLoader;
 import kikaha.core.test.HttpServerExchangeStub;
-import kikaha.urouting.*;
-import kikaha.urouting.api.DefaultResponse;
-import kikaha.urouting.api.Serializer;
-import kikaha.urouting.api.Unserializer;
+import kikaha.urouting.api.Response;
+import kikaha.urouting.serializers.Serializer;
+import kikaha.urouting.serializers.SerializerAndUnserializerProvider;
+import kikaha.urouting.serializers.Unserializer;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,7 +38,8 @@ public class SimpleExchangeReadingAndWritingBodyDataBehaviorTest {
 	@Spy RoutingMethodResponseWriter responseWriter;
 	RoutingMethodExceptionHandler exceptionHandler = new RoutingMethodExceptionHandler( null, null );
 
-	@Mock SerializerAndUnserializerProvider serializerAndUnserializerProvider;
+	@Mock
+    SerializerAndUnserializerProvider serializerAndUnserializerProvider;
 	@Mock Unserializer unserializer;
 	@Mock Serializer serializer;
 	@Mock Config config;
@@ -84,7 +84,7 @@ public class SimpleExchangeReadingAndWritingBodyDataBehaviorTest {
 	public void ensureThatIsAbleToSendResponse() throws IOException {
 		final HttpServerExchange request = createExchange();
 		final SimpleExchange exchange = SimpleExchange.wrap( request, parameterReader, responseWriter, exceptionHandler );
-		exchange.sendResponse( DefaultResponse.ok( "Hello World" ).contentType( CONTENT_TYPE ) );
+		exchange.sendResponse( Response.ok( "Hello World" ).contentType( CONTENT_TYPE ) );
 		verify( serializer ).serialize( eq("Hello World"), eq(request), anyString() );
 	}
 

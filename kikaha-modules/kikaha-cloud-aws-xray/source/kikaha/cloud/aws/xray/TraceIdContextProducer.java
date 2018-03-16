@@ -3,7 +3,7 @@ package kikaha.cloud.aws.xray;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.util.HeaderValues;
 import kikaha.cloud.smart.tracer.TraceId;
-import kikaha.urouting.api.ContextProducer;
+import kikaha.urouting.ContextProducer;
 import kikaha.urouting.api.RoutingException;
 
 import javax.inject.Singleton;

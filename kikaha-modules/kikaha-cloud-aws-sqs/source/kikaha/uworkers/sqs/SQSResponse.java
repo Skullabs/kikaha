@@ -10,7 +10,7 @@ public class SQSResponse implements Response {
 
 	@Override
 	public <RESP> RESP response() {
-		throw new UnsupportedOperationException("response not implemented yet!");
+		throw new UnsupportedOperationException("create not implemented yet!");
 	}
 
 	@Override

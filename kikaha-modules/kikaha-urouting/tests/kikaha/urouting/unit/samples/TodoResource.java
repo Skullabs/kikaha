@@ -1,26 +1,13 @@
 package kikaha.urouting.unit.samples;
 
+import kikaha.urouting.api.*;
+import lombok.*;
+
+import javax.inject.Singleton;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-import kikaha.urouting.api.Consumes;
-import kikaha.urouting.api.DefaultResponse;
-import kikaha.urouting.api.GET;
-import kikaha.urouting.api.Mimes;
-import kikaha.urouting.api.POST;
-import kikaha.urouting.api.Path;
-import kikaha.urouting.api.PathParam;
-import kikaha.urouting.api.Produces;
-import kikaha.urouting.api.Response;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-
-import javax.inject.Singleton;
 
 @Path("todos")
 @Produces(Mimes.PLAIN_TEXT)
@@ -33,7 +20,7 @@ public class TodoResource {
 	@POST
 	public Response persistTodo(Todo user) {
 		todos.put(user.getId(), user);
-		return DefaultResponse.created("todos/" + user.getId());
+		return Response.created("todos/" + user.getId());
 	}
 
 	@GET

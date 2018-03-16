@@ -15,6 +15,7 @@ import kikaha.urouting.RoutingMethodParameterReader;
 import kikaha.urouting.RoutingMethodExceptionHandler;
 {{#asyncMode}}
 import kikaha.urouting.api.AsyncResponse;
+import kikaha.urouting.DefaultAsyncResponse;
 {{/asyncMode}}
 import kikaha.urouting.api.Response;
 import lombok.extern.slf4j.Slf4j;
@@ -96,10 +97,10 @@ final public class {{generatedClassName}} implements HttpHandler {
 	private void runMethod( final HttpServerExchange exchange, final byte[] bodyData ){
 		try {
 			{{#responseContentType}}
-			final AsyncResponse asyncResponse = new AsyncResponse( exchange, responseWriter, exceptionHandler, "{{{responseContentType}}}" );
+			final AsyncResponse asyncResponse = new DefaultAsyncResponse( exchange, responseWriter, exceptionHandler, "{{{responseContentType}}}" );
 			{{/responseContentType}}
 			{{^responseContentType}}
-			final AsyncResponse asyncResponse = new AsyncResponse( exchange, responseWriter, exceptionHandler );
+			final AsyncResponse asyncResponse = new DefaultAsyncResponse( exchange, responseWriter, exceptionHandler );
 			{{/responseContentType}}
 			instance.{{methodName}}( {{{methodParams}}} );
 			exchange.dispatch();

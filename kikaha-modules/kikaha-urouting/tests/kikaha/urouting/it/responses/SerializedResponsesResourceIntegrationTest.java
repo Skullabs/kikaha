@@ -45,7 +45,7 @@ public class SerializedResponsesResourceIntegrationTest {
 
 	@Test
 	public void ensureSerializingResponseObjectAsDefaultType() throws Exception {
-		final Request.Builder request = request( "http://localhost:19999/it/parameters/serialized/response-as-default-type" );
+		final Request.Builder request = request( "http://localhost:19999/it/parameters/serialized/create-as-default-type" );
 		final Response response = Http.send( request );
 		assertEquals( 200, response.code() );
 		assertEquals( Mimes.PLAIN_TEXT, response.header( "Content-Type" ) );
@@ -54,7 +54,7 @@ public class SerializedResponsesResourceIntegrationTest {
 
 	@Test
 	public void ensureSerializingResponseObjectAsYaml() throws Exception {
-		final Request.Builder request = request( "http://localhost:19999/it/parameters/serialized/response-as-yaml" );
+		final Request.Builder request = request( "http://localhost:19999/it/parameters/serialized/create-as-yaml" );
 		final Response response = Http.send( request );
 		assertEquals( 200, response.code() );
 		assertEquals( YmlSerializer.MIME, response.header( "Content-Type" ) );
@@ -63,7 +63,7 @@ public class SerializedResponsesResourceIntegrationTest {
 
 	@Test
 	public void ensureSerializingResponseObjectAsYaml2() throws Exception {
-		final Request.Builder request = request( "http://localhost:19999/it/parameters/serialized/response-as-yaml2" );
+		final Request.Builder request = request( "http://localhost:19999/it/parameters/serialized/create-as-yaml2" );
 		final Response response = Http.send( request );
 		assertEquals( 200, response.code() );
 		assertEquals( YmlSerializer.MIME, response.header( "Content-Type" ) );
@@ -73,7 +73,7 @@ public class SerializedResponsesResourceIntegrationTest {
 
 	@Test
 	public void ensureSerializingResponseObjectAsYaml3() throws Exception {
-		final Request.Builder request = request( "http://localhost:19999/it/parameters/serialized/response-as-yaml3" );
+		final Request.Builder request = request( "http://localhost:19999/it/parameters/serialized/create-as-yaml3" );
 		final Response response = Http.send( request );
 		assertEquals( 200, response.code() );
 		assertEquals( YmlSerializer.MIME, response.header( "Content-Type" ) );

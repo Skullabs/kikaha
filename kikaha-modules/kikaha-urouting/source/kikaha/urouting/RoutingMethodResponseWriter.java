@@ -1,14 +1,22 @@
 package kikaha.urouting;
 
-import java.io.IOException;
-import javax.annotation.PostConstruct;
-import javax.inject.*;
 import io.undertow.server.HttpServerExchange;
-import io.undertow.util.*;
+import io.undertow.util.HeaderMap;
+import io.undertow.util.Headers;
+import io.undertow.util.HttpString;
 import kikaha.config.Config;
-import kikaha.urouting.api.*;
+import kikaha.urouting.api.Header;
+import kikaha.urouting.api.Response;
+import kikaha.urouting.api.RoutingException;
+import kikaha.urouting.serializers.Serializer;
+import kikaha.urouting.serializers.SerializerAndUnserializerProvider;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.io.IOException;
 
 /**
  * A helper class to write responses to the HTTP Client.
@@ -20,7 +28,7 @@ public class RoutingMethodResponseWriter {
 	Config kikahaConf;
 
 	@Inject
-	SerializerAndUnserializerProvider serializerAndUnserializerProvider;
+    SerializerAndUnserializerProvider serializerAndUnserializerProvider;
 
 	@Getter
 	String defaultEncoding;
@@ -35,7 +43,7 @@ public class RoutingMethodResponseWriter {
 	}
 
 	/**
-	 * Writes a response to HTTP Client informing that no content was available.
+	 * Writes a create to HTTP Client informing that no content was available.
 	 *
 	 * @param exchange
 	 */
@@ -45,7 +53,7 @@ public class RoutingMethodResponseWriter {
 	}
 
 	/**
-	 * Serialize and send the {@code response} object to the HTTP Client.
+	 * Serialize and send the {@code create} object to the HTTP Client.
 	 *
 	 * @param exchange
 	 * @param response
@@ -57,7 +65,7 @@ public class RoutingMethodResponseWriter {
 	}
 
 	/**
-	 * Serialize and send the {@code response} object to the HTTP Client.
+	 * Serialize and send the {@code create} object to the HTTP Client.
 	 *
 	 * @param exchange
 	 * @param response
@@ -70,7 +78,7 @@ public class RoutingMethodResponseWriter {
 	}
 
 	/**
-	 * Serialize and send the {@code response} object to the HTTP Client. The
+	 * Serialize and send the {@code create} object to the HTTP Client. The
 	 * HTTP Status Code will always be 200, in this case. Also, it will send use
 	 * <em>UTF-8</em> as default encoding.
 	 *
@@ -86,7 +94,7 @@ public class RoutingMethodResponseWriter {
 	}
 
 	/**
-	 * Serialize and send the {@code response} object to the HTTP Client.
+	 * Serialize and send the {@code create} object to the HTTP Client.
 	 *
 	 * @param exchange
 	 * @param defaultContentType
@@ -128,7 +136,7 @@ public class RoutingMethodResponseWriter {
 	}
 
 	void sendHeader(final HeaderMap responseHeaders, final Header header, final String value) {
-		responseHeaders.add( header.name(), value );
+		responseHeaders.add( new HttpString(header.name()), value );
 	}
 
 	void sendContentTypeHeader( final HttpServerExchange exchange, final String contentType ) {

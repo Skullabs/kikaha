@@ -4,7 +4,7 @@ import java.io.IOException;
 import javax.inject.Singleton;
 import io.undertow.server.HttpServerExchange;
 import kikaha.core.modules.http.ContentType;
-import kikaha.urouting.api.Serializer;
+import kikaha.urouting.serializers.Serializer;
 import org.yaml.snakeyaml.Yaml;
 
 /**

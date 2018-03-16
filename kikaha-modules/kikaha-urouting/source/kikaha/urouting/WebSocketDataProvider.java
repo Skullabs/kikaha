@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.util.List;
 import javax.inject.*;
 import kikaha.core.modules.websocket.WebSocketSession;
-import kikaha.urouting.api.*;
+import kikaha.urouting.api.converter.ConversionException;
+import kikaha.urouting.api.converter.ConverterFactory;
 
 /**
  * Provides data to a Websocket routing method.
@@ -13,7 +14,7 @@ import kikaha.urouting.api.*;
 public class WebSocketDataProvider {
 
 	@Inject
-	ConverterFactory converterFactory;
+    ConverterFactory converterFactory;
 
 	/**
 	 * Get a header parameter from request converted to the {@code <T>} type as

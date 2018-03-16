@@ -9,7 +9,7 @@
 	</parent>
 
 	<artifactId>kikaha-urouting</artifactId>
-	<name>Kikaha: micro Routing: API</name>
+	<name>Kikaha: micro Routing</name>
 	<packaging>jar</packaging>
 
 	<dependencies>
@@ -17,6 +17,10 @@
 			<groupId>${project.groupId}</groupId>
 			<artifactId>kikaha-core</artifactId>
 		</dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>kikaha-urouting-api</artifactId>
+        </dependency>
 		<dependency>
 			<groupId>com.squareup.okhttp3</groupId>
 			<artifactId>okhttp</artifactId>

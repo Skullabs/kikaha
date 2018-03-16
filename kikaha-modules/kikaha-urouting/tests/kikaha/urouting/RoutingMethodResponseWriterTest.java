@@ -1,21 +1,26 @@
 package kikaha.urouting;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.*;
-import javax.inject.Inject;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.util.*;
-import kikaha.core.test.*;
-import kikaha.urouting.RoutingMethodResponseWriter;
-import kikaha.urouting.api.*;
+import kikaha.core.test.HttpServerExchangeStub;
+import kikaha.core.test.KikahaRunner;
+import kikaha.urouting.api.Header;
+import kikaha.urouting.api.Mimes;
+import kikaha.urouting.api.Response;
 import kikaha.urouting.unit.samples.TodoResource;
 import kikaha.urouting.unit.samples.TodoResource.Todo;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import javax.inject.Inject;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.*;
 
 @Slf4j
 @SuppressWarnings("unchecked")

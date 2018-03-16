@@ -10,6 +10,7 @@ import com.fizzed.rocker.runtime.*;
 import io.undertow.server.HttpServerExchange;
 import kikaha.core.modules.http.ContentType;
 import kikaha.urouting.api.*;
+import kikaha.urouting.serializers.Serializer;
 
 /**
  * @author <a href="mailto:j.milagroso@gmail.com">Jay Milagroso</a>

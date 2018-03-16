@@ -164,6 +164,11 @@
             <dependency>
                 <groupId>io.skullabs.kikaha</groupId>
                 <version>2.2.0-SNAPSHOT</version>
+                <artifactId>kikaha-urouting-api</artifactId>
+            </dependency>
+            <dependency>
+                <groupId>io.skullabs.kikaha</groupId>
+                <version>2.2.0-SNAPSHOT</version>
                 <artifactId>kikaha-jackson</artifactId>
                 <scope>compile</scope>
             </dependency>

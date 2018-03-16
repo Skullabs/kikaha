@@ -14,6 +14,8 @@ import kikaha.core.cdi.helpers.filter.Condition;
 import kikaha.core.modules.http.ContentType;
 import kikaha.core.test.HttpServerExchangeStub;
 import kikaha.urouting.api.*;
+import kikaha.urouting.serializers.Serializer;
+import kikaha.urouting.serializers.Unserializer;
 import kikaha.urouting.serializers.jackson.User.Address;
 import lombok.SneakyThrows;
 import org.junit.Test;
