@@ -1,4 +1,4 @@
-package kikaha.urouting;
+package kikaha.commons;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

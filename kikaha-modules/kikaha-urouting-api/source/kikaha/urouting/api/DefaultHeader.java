@@ -3,11 +3,12 @@ package kikaha.urouting.api;
 import kikaha.core.cdi.helpers.TinyList;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import java.util.List;
 
-@Getter
+@Getter @ToString
 @RequiredArgsConstructor
 @Accessors(fluent = true)
 public class DefaultHeader implements Header {

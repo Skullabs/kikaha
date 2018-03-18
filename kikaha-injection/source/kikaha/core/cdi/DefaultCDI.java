@@ -1,13 +1,16 @@
 package kikaha.core.cdi;
 
-import java.util.*;
-import java.util.concurrent.locks.LockSupport;
-import java.util.function.*;
 import kikaha.core.cdi.helpers.*;
-import kikaha.core.cdi.helpers.filter.*;
+import kikaha.core.cdi.helpers.filter.Condition;
+import kikaha.core.cdi.helpers.filter.Filter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.*;
+import java.util.concurrent.locks.LockSupport;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 @Slf4j
 @SuppressWarnings( { "rawtypes", "unchecked" } )
@@ -179,7 +182,7 @@ public class DefaultCDI implements CDI {
 				dependencies.put( serviceClazz, instances );
 			} else {
 				final T instance = injectionContext.instantiate( serviceClazz, providerContext );
-				instances = instance == null ? EmptyIterable.instance() : new SingleObjectIterable<>( instance );
+				instances = instance == null ? Collections.emptyList() : new SingleObjectIterable<>( instance );
 			}
 			loadDependenciesAndInjectInto( instances );
 			dependencies.unlock( serviceClazz );

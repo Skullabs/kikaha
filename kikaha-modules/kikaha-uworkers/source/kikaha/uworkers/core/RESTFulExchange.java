@@ -1,8 +1,9 @@
 package kikaha.uworkers.core;
 
 import kikaha.urouting.SimpleExchange;
-import kikaha.urouting.api.DefaultResponse;
-import kikaha.uworkers.api.*;
+import kikaha.uworkers.api.Exchange;
+import kikaha.uworkers.api.Response;
+import kikaha.uworkers.api.TimeStamp;
 import kikaha.uworkers.local.LocalExchange;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -71,7 +72,7 @@ public class RESTFulExchange implements Exchange {
 @RequiredArgsConstructor( staticName = "to" )
 class RESTFulUWorkerResponse implements BiConsumer<Response.UndefinedObject, Throwable> {
 
-    final static kikaha.urouting.api.Response NO_CONTENT = DefaultResponse.noContent();
+    final static kikaha.urouting.api.Response NO_CONTENT = kikaha.urouting.api.Response.noContent();
     final SimpleExchange exchange;
 
     @Override
@@ -79,7 +80,7 @@ class RESTFulUWorkerResponse implements BiConsumer<Response.UndefinedObject, Thr
         try {
             sendResponse( undefinedObject, throwable );
         } catch ( Throwable cause ) {
-            log.error( "Could not send create", cause );
+            log.error( "Could not send response", cause );
         } finally {
             exchange.endExchange();
         }

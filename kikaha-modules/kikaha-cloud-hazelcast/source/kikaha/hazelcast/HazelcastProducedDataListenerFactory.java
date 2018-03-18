@@ -5,7 +5,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Typed;
 import javax.inject.*;
 import kikaha.core.cdi.helpers.TinyList;
-import kikaha.urouting.Reflection;
+import kikaha.commons.Reflection;
 
 @Singleton
 @SuppressWarnings( { "rawtypes" } )

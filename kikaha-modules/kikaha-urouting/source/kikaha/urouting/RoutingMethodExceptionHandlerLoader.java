@@ -8,6 +8,7 @@ import javax.enterprise.inject.Typed;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import kikaha.commons.Reflection;
 import kikaha.config.Config;
 import kikaha.core.cdi.CDI;
 import kikaha.urouting.api.ExceptionHandler;
@@ -51,7 +52,7 @@ public class RoutingMethodExceptionHandlerLoader {
 	}
 
 	private <T extends Throwable> Class<T> getGenericClass( final ExceptionHandler<T> handler ) {
-		return (Class<T>)Reflection.getFirstGenericTypeFrom( handler, ExceptionHandler.class );
+		return (Class<T>) Reflection.getFirstGenericTypeFrom( handler, ExceptionHandler.class );
 	}
 
 	@Produces

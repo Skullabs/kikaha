@@ -1,6 +1,5 @@
 package kikaha.urouting.serializers.jackson;
 
-import kikaha.urouting.api.DefaultResponse;
 import kikaha.urouting.api.ExceptionHandler;
 import kikaha.urouting.api.Response;
 
@@ -16,8 +15,8 @@ public class JsonParseExceptionHandler
 
 	@Override
 	public Response handle(final JsonProcessingException cause) {
-		return DefaultResponse
-					.ok("BAD REQUEST: " + cause.getMessage())
-					.statusCode(400);
+		return Response
+            .ok("BAD REQUEST: " + cause.getMessage())
+            .statusCode(400);
 	}
 }

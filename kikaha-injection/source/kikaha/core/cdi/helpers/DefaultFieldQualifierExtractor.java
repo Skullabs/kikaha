@@ -3,6 +3,7 @@ package kikaha.core.cdi.helpers;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.Collection;
+import java.util.List;
 
 import javax.enterprise.inject.Typed;
 import javax.inject.Inject;
@@ -29,6 +30,6 @@ public class DefaultFieldQualifierExtractor implements FieldQualifierExtractor {
 
 	public static boolean fieldRepresentsACollection( final Field field ) {
 		final Class<?> type = field.getType();
-		return Iterable.class.equals( type ) || Collection.class.equals( type );
+		return Iterable.class.equals( type ) || Collection.class.equals( type ) || List.class.equals( type );
 	}
 }

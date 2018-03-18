@@ -16,6 +16,11 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>kikaha-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.undertow</groupId>
+            <artifactId>undertow-core</artifactId>
+            <scope>provided</scope>
         </dependency><!--
 		<dependency>
 			<groupId>com.squareup.okhttp3</groupId>

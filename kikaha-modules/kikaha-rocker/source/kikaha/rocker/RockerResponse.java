@@ -1,11 +1,15 @@
 package kikaha.rocker;
 
-import java.util.*;
-import io.undertow.util.HttpString;
 import kikaha.core.cdi.helpers.TinyList;
-import kikaha.urouting.api.*;
-import lombok.*;
+import kikaha.urouting.api.Header;
+import kikaha.urouting.api.Mimes;
+import kikaha.urouting.api.MutableResponse;
+import kikaha.urouting.api.Response;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.Accessors;
+
+import java.util.List;
 
 /**
  * @author <a href="mailto:j.milagroso@gmail.com">Jay Milagroso</a>
@@ -43,7 +47,7 @@ public class RockerResponse implements Response, MutableResponse {
     }
 
     @Override
-    public RockerResponse header(HttpString name, String value) {
+    public RockerResponse header(String name, String value) {
         throw new UnsupportedOperationException("header is immutable!");
     }
 }

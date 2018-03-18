@@ -1,9 +1,13 @@
 package kikaha.mustache;
 
-import io.undertow.util.HttpString;
 import kikaha.core.cdi.helpers.TinyList;
-import kikaha.urouting.api.*;
-import lombok.*;
+import kikaha.urouting.api.Header;
+import kikaha.urouting.api.Mimes;
+import kikaha.urouting.api.MutableResponse;
+import kikaha.urouting.api.Response;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 
 @Setter
@@ -40,7 +44,7 @@ public class MustacheResponse implements Response, MutableResponse {
 	}
 
 	@Override
-	public MustacheResponse header(HttpString name, String value) {
+	public MustacheResponse header(String name, String value) {
 		throw new UnsupportedOperationException("header is immutable!");
 	}
 }
