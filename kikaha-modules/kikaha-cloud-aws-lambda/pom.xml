@@ -16,46 +16,18 @@
 		<!-- Main Dependencies -->
         <dependency>
             <groupId>io.skullabs.kikaha</groupId>
-            <artifactId>kikaha-core</artifactId>
-            <scope>compile</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.jboss.xnio</groupId>
-                    <artifactId>xnio-all</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.jboss.xnio</groupId>
-                    <artifactId>xnio-api</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.jboss.xnio</groupId>
-                    <artifactId>xnio-nio</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>javax.enterprise</groupId>
-                    <artifactId>cdi-api</artifactId>
-                </exclusion>
-            </exclusions>
+            <artifactId>kikaha-injection</artifactId>
         </dependency>
-		<dependency>
-			<groupId>io.skullabs.kikaha</groupId>
-			<artifactId>kikaha-urouting</artifactId>
+        <dependency>
+            <groupId>io.skullabs.kikaha</groupId>
+            <artifactId>kikaha-urouting-api</artifactId>
             <scope>compile</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>org.jboss.xnio</groupId>
-					<artifactId>xnio-all</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.jboss.xnio</groupId>
-					<artifactId>xnio-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.jboss.xnio</groupId>
-					<artifactId>xnio-nio</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
+        </dependency>
+        <dependency>
+            <groupId>io.skullabs.kikaha</groupId>
+            <artifactId>kikaha-commons</artifactId>
+            <scope>compile</scope>
+        </dependency>
         <dependency>
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-lambda-java-core</artifactId>

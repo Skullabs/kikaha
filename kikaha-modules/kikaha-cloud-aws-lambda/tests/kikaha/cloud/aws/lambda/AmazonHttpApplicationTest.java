@@ -1,149 +1,136 @@
 package kikaha.cloud.aws.lambda;
 
-import com.amazonaws.services.lambda.runtime.Context;
-import kikaha.core.modules.http.WebResource;
-import lombok.Getter;
+import kikaha.cloud.aws.lambda.sample.AccountProducer;
+import kikaha.cloud.aws.lambda.sample.SampleResource;
+import kikaha.commons.ChainedMap;
+import kikaha.core.cdi.DefaultCDI;
+import kikaha.urouting.api.Headers;
+import kikaha.urouting.api.Mimes;
+import lombok.*;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import javax.inject.*;
+import javax.swing.*;
 
-import static java.util.Arrays.asList;
-import static org.junit.Assert.*;
-import static org.mockito.Matchers.eq;
-import static org.hamcrest.CoreMatchers.*;
-import static org.mockito.Mockito.verify;
+import static kikaha.cloud.aws.lambda.Requests.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
-/**
- * Unit tests for AmazonHttpApplication.
- */
-@RunWith(MockitoJUnitRunner.class)
 public class AmazonHttpApplicationTest {
 
-    static final String
-        EXPECTED_FAILURE_RESPONSE = "java.lang.RuntimeException: Failed",
-        EXPECTED_STACKTRACE_ENTRY = "at kikaha.cloud.aws.lambda.GetProfilesButFails.handle(AmazonHttpApplicationTest.java:";
+    static SampleResource resource;
+    static AmazonHttpApplication application;
 
-	final AmazonHttpApplication application = new AmazonHttpApplication();
+    @BeforeClass
+    public static void injectDependencies(){
+        val cdi = DefaultCDI.newInstance();
 
-	MockHandler handler1 = new GetUsers();
-	MockHandler handler2 = new GetUser();
-	MockHandler handler3 = new IncludeUser();
-    GetProfilesButFails handler4 = new GetProfilesButFails();
+        application = new AmazonHttpApplication(
+            cdi.load(AmazonRequestMatcher.class),
+            cdi.load(AmazonHttpFilters.class),
+            cdi.load(AmazonContentTypeHandlers.class)
+        );
 
-	@Mock
-	AmazonHttpInterceptor interceptor;
-
-	@Before
-	public void loadHandlers(){
-		application.loadHandlers( asList( handler1, handler2, handler3, handler4 ) );
-		application.interceptors = Collections.singletonList(interceptor);
-	}
-
-	@Test
-	public void ensureCanDeployAllHandlers(){
-		final Map<String, List<Entry>> entriesMatcher = application.getEntriesMatcher();
-		assertEquals( 2, entriesMatcher.size() );
-		assertEquals( 3, entriesMatcher.get( "GET" ).size() );
-		assertEquals( 1, entriesMatcher.get( "POST" ).size() );
-	}
-
-	@Test
-	public void ensureCanInvokeHandler1(){
-		final AmazonLambdaRequest request = newRequest( "GET", "/users" );
-		final AmazonLambdaResponse response = application.handleRequest( request, (Context) null );
-		assertEquals( 204, response.statusCode );
-		assertTrue( handler1.isInvoked() );
-		assertFalse( handler2.isInvoked() );
-		assertFalse( handler3.isInvoked() );
-	}
-
-	@Test
-	public void ensureCanInvokeHandler2(){
-		final AmazonLambdaRequest request = newRequest( "GET", "/users/1" );
-		final AmazonLambdaResponse response = application.handleRequest( request, (Context) null );
-		assertEquals( 204, response.statusCode );
-		assertFalse( handler1.isInvoked() );
-		assertTrue( handler2.isInvoked() );
-		assertFalse( handler3.isInvoked() );
-	}
-
-	@Test
-	public void ensureCanInvokeHandler3(){
-		final AmazonLambdaRequest request = newRequest( "POST", "/users" );
-		final AmazonLambdaResponse response = application.handleRequest( request, (Context) null );
-		assertEquals( 204, response.statusCode );
-		assertFalse( handler1.isInvoked() );
-		assertFalse( handler2.isInvoked() );
-		assertTrue( handler3.isInvoked() );
-	}
+        resource = cdi.load( SampleResource.class );
+    }
 
     @Test
-    public void ensureCanHandlerFailures(){
-        final AmazonLambdaRequest request = newRequest( "GET", "/profiles" );
-        final AmazonLambdaResponse response = application.handleRequest( request, (Context) null );
-        assertEquals( 500, response.statusCode );
-        assertThat( response.body, allOf(startsWith(EXPECTED_FAILURE_RESPONSE), containsString(EXPECTED_STACKTRACE_ENTRY)) );
-
-        assertFalse( handler1.isInvoked() );
-        assertFalse( handler2.isInvoked() );
-        assertFalse( handler3.isInvoked() );
-        assertTrue( handler4.isInvoked() );
+    public void canHandleRequestWithManyParameter(){
+        val response = application.handleRequest( GET_WITH_PARAMS, null );
+        assertEquals( 200, response.statusCode );
+        assertEquals(Mimes.JSON, response.getContentType() );
+        assertEquals("{\"id\":431}", response.getBody());
     }
 
-	@Test
-	public void ensureCanInvokeResponseHook() {
-		final AmazonLambdaRequest request = newRequest("GET", "/users");
-		final AmazonLambdaResponse response = application.handleRequest(request,(Context)  null);
-        verify(interceptor).validateRequest(eq(request) );
-		verify(interceptor).beforeSendResponse(eq(response) );
-	}
-
-	static AmazonLambdaRequest newRequest( String method, String path ) {
-		final AmazonLambdaRequest amazonLambdaRequest = new AmazonLambdaRequest();
-		amazonLambdaRequest.path = path;
-		amazonLambdaRequest.httpMethod = method;
-		amazonLambdaRequest.pathParameters = new HashMap<>();
-		return amazonLambdaRequest;
-	}
-}
-
-@WebResource( path = "/users" )
-class GetUsers extends MockHandler {}
-
-@WebResource( path = "/users/{id}" )
-class GetUser extends MockHandler {}
-
-@WebResource( path = "/users", method = "POST" )
-class IncludeUser extends MockHandler {}
-
-@Getter
-class MockHandler implements AmazonHttpHandler {
-
-	boolean invoked = false;
-
-	@Override
-	public AmazonLambdaResponse handle( AmazonLambdaRequest request ) {
-		invoked = true;
-		return AmazonLambdaResponse.noContent();
-	}
-}
-
-@WebResource( path = "/profiles" )
-class GetProfilesButFails implements AmazonHttpHandler {
-
-    @Getter
-    boolean invoked = false;
-
-    @Override
-    public AmazonLambdaResponse handle(AmazonLambdaRequest request) throws Exception {
-        invoked = true;
-        throw new RuntimeException( "Failed" );
+    @Test
+    public void canHandleRequestWithoutAnyParameter(){
+        val response = application.handleRequest( GET_WITHOUT_PARAMETERS, null );
+        assertEquals( 200, response.statusCode );
+        assertEquals(Mimes.JSON, response.getContentType() );
+        assertEquals("\"SampleResource.doGetAndReturnObject\"", response.getBody());
     }
+
+    @Test
+    public void canHandleRequestWithSinglePathParameter(){
+        val response = application.handleRequest( GET_SINGLE, null );
+        assertEquals( 200, response.statusCode );
+        assertEquals( Mimes.JSON, response.getContentType() );
+        assertEquals("431", response.getBody());
+    }
+
+    @Test
+    public void canHandlePostRequests(){
+        val response = application.handleRequest( POST, null );
+        assertEquals( 201, response.statusCode );
+        assertNull( response.getContentType() );
+        assertNull(response.getBody());
+        assertEquals( "/location/", response.getHeaders().get(Headers.LOCATION) );
+
+        assertEquals( resource.getLastExecutedMethod(),"SampleResource.doPost"  );
+    }
+
+    @Test
+    public void canHandlePutRequests(){
+        val response = application.handleRequest( PUT, null );
+        assertEquals( 204, response.statusCode );
+        assertNull( response.getContentType() );
+        assertNull(response.getBody());
+        assertEquals( resource.getLastExecutedMethod(),"SampleResource.doPutAndReceiveContext(Account(username=1234),{id=431})"  );
+    }
+
+    @Test
+    public void canHandlePatchRequests(){
+        val response = application.handleRequest( PATCH, null );
+        assertEquals( 204, response.statusCode );
+        assertNull( response.getContentType() );
+        assertNull(response.getBody());
+        assertEquals( resource.getLastExecutedMethod(),"SampleResource.doPatch({id=431})"  );
+    }
+
+    @Test
+    public void canHandleDeleteRequests(){
+        val response = application.handleRequest( DELETE, null );
+        assertEquals( 204, response.statusCode );
+        assertNull( response.getContentType() );
+        assertNull(response.getBody());
+        assertEquals( resource.getLastExecutedMethod(),"SampleResource.doDeleteObject(431)"  );
+    }
+}
+
+interface Requests {
+
+    AmazonHttpRequest
+        GET_WITHOUT_PARAMETERS = new AmazonHttpRequest().setPath( "/root-uri/" ).setHttpMethod( "GET" ),
+
+        GET_WITH_PARAMS = new AmazonHttpRequest().setPath( "/root-uri/with-params" ).setHttpMethod( "GET" )
+            .setHeaders( new ChainedMap<String, String>()
+                .set( "JSESSIONID", "1234-431-43143")
+                .set( "Cookie", "X=43143" )
+            )
+            .setQueryStringParameters(
+                Collections.singletonMap( "id", "431" )
+            ),
+
+        GET_SINGLE = new AmazonHttpRequest().setPath( "/root-uri/single/431" ).setHttpMethod( "GET" ),
+
+        POST = new AmazonHttpRequest().setPath( "/root-uri/" ).setHttpMethod( "POST" )
+                .setHeaders( Collections.singletonMap(Headers.CONTENT_TYPE, Mimes.JSON ) )
+                .setBody( "{\"id\":431}" ),
+
+        PUT = new AmazonHttpRequest().setPath( "/root-uri/" ).setHttpMethod( "PUT" )
+            .setHeaders(
+                new ChainedMap<String, String>()
+                    .set( AccountProducer.HEADER, "1234")
+                    .set(Headers.CONTENT_TYPE, Mimes.JSON ) )
+            .setBody( "{\"id\":431}" ),
+
+        DELETE = new AmazonHttpRequest().setPath( "/root-uri/431" ).setHttpMethod( "DELETE" ),
+
+        PATCH = new AmazonHttpRequest().setPath( "/root-uri/" ).setHttpMethod( "PATCH" )
+                .setHeaders( Collections.singletonMap(Headers.CONTENT_TYPE, Mimes.JSON ) )
+                .setBody( "{\"id\":431}" )
+    ;
 }

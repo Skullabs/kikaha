@@ -1,18 +1,23 @@
 package kikaha.cloud.aws.lambda;
 
 import com.fasterxml.jackson.jr.ob.JSON;
-import lombok.*;
+import kikaha.urouting.api.Mimes;
+import lombok.Getter;
+import lombok.experimental.Accessors;
 
+import javax.inject.Singleton;
 import java.io.IOException;
-import java.util.*;
-import javax.inject.*;
+import java.util.Map;
 
-@Singleton
+@Singleton @Accessors(fluent = true)
 @SuppressWarnings("unchecked")
-public class JacksonJrAmazonLambdaSerializer implements AmazonLambdaSerializer {
+public class JacksonJrAmazonLambdaSerializer implements AmazonContentTypeHandler {
+
+    @Getter
+    final String contentType = Mimes.JSON;
 
     @Override
-    public String toString(Object body) {
+    public String serialize(Object body) throws AmazonRequestException {
         try {
             return JSON.std.asString( body );
         } catch (IOException e) {
@@ -21,7 +26,7 @@ public class JacksonJrAmazonLambdaSerializer implements AmazonLambdaSerializer {
     }
 
     @Override
-    public <T> T fromString(String body, Class<T> clazz) {
+    public <T> T unserialize(String body, Class<T> clazz) throws AmazonRequestException {
         try {
             if ( Map.class.isAssignableFrom( clazz ) )
                 return (T) JSON.std.anyFrom( body );

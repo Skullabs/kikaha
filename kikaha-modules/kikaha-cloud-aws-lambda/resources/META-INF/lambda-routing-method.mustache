@@ -3,7 +3,6 @@ package {{packageName}};
 import javax.inject.*;
 import javax.inject.Singleton;
 import javax.enterprise.inject.Typed;
-import kikaha.core.modules.http.WebResource;
 import kikaha.cloud.aws.lambda.*;
 import kikaha.urouting.*;
 import kikaha.urouting.api.*;
@@ -13,24 +12,21 @@ import kikaha.urouting.api.*;
 @WebResource( path="{{httpPath}}", method="{{httpMethod}}" )
 final public class {{generatedClassName}} implements AmazonHttpHandler {
 
-    @Inject AmazonLambdaFunctionParameterReader methodDataProvider;
+    @Inject AmazonFunctionParameterReader methodDataProvider;
     @Inject {{{type}}} instance;
 
-    public AmazonLambdaResponse handle( AmazonLambdaRequest request ) throws Exception {
+    public AmazonHttpResponse handle( AmazonHttpRequest request ) throws Exception {
     {{#returnType}}
         final {{{returnType}}} response = instance.{{methodName}}( {{{methodParams}}} );
-        return AmazonLambdaResponse.with( response );
+        return AmazonHttpResponse.with( response );
     {{/returnType}}
     {{^returnType}}
         instance.{{methodName}}( {{{methodParams}}} );
-        return AmazonLambdaResponse.noContent();
+        return AmazonHttpResponse.noContent();
     {{/returnType}}
     }
 
     public String toString(){
-System.out.println( "Method: {{{type}}}.{{methodName}}" );
-System.out.println( " > methodDataProvider: " + methodDataProvider );
-System.out.println( " > instance: " + instance );
         return "{{{type}}}.{{methodName}}";
     }
 }

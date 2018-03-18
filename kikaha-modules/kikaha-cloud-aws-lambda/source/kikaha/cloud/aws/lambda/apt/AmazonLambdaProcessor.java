@@ -1,11 +1,11 @@
-package kikaha.cloud.aws.lambda;
+package kikaha.cloud.aws.lambda.apt;
 
 import static kikaha.apt.APT.*;
-import static kikaha.urouting.apt.MicroRoutingParameterParser.extractHttpPathFrom;
 
 import javax.annotation.processing.*;
 import javax.enterprise.inject.Typed;
 import javax.inject.Singleton;
+import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -47,4 +47,18 @@ public class AmazonLambdaProcessor extends AbstractAnnotatedMethodProcessor {
 			extractHttpPathFrom( method ), httpMethodAnnotation.getSimpleName()
 		);
 	}
+
+    static String extractHttpPathFrom( final ExecutableElement method ) {
+        final Element classElement = method.getEnclosingElement();
+        final Path pathAnnotationOfClass = classElement.getAnnotation( Path.class );
+        final String rootPath = pathAnnotationOfClass != null ? pathAnnotationOfClass.value() : "/";
+        final Path pathAnnotationOfMethod = method.getAnnotation( Path.class );
+        final String methodPath = pathAnnotationOfMethod != null ? pathAnnotationOfMethod.value() : "/";
+        return generateHttpPath( rootPath, methodPath );
+    }
+
+    static String generateHttpPath( final String rootPath, final String methodPath ) {
+        return String.format( "/%s/%s/", rootPath, methodPath )
+                .replaceAll( "//+", "/" );
+    }
 }

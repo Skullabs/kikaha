@@ -7,7 +7,7 @@
 	</appender>
 
 	<logger name="org.vibur.dbcp.proxy.AbstractInvocationHandler" level="ERROR"/>
-	<logger name="kikaha" level="INFO"/>
+	<logger name="kikaha" level="DEBUG"/>
 
 	<root level="INFO">
 		<appender-ref ref="STDOUT" />

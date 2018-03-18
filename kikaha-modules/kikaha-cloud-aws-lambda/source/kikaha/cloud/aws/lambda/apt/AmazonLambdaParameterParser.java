@@ -1,4 +1,4 @@
-package kikaha.cloud.aws.lambda;
+package kikaha.cloud.aws.lambda.apt;
 
 import static java.lang.String.format;
 import static kikaha.apt.APT.*;
