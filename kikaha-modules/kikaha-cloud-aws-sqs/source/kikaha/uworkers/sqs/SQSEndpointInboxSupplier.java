@@ -27,6 +27,6 @@ public class SQSEndpointInboxSupplier implements EndpointInbox {
                 .withWaitTimeSeconds(waitTimeInSeconds);
         final ReceiveMessageResult result = sqs.receiveMessage(request);
         for ( Message message : result.getMessages() )
-            notifyListener( listener, new SQSExchange( mapper, sqs, message ) );
+            notifyListener( listener, new SQSExchange( mapper, sqs, queueUrl, message ) );
     }
 }
