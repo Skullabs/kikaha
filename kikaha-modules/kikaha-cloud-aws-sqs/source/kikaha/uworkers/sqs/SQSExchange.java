@@ -17,11 +17,12 @@ public class SQSExchange implements Exchange {
 
 	final ObjectMapper mapper;
 	final AmazonSQS sqs;
+	final String queueUrl;
 	final Message message;
 
 	@Override
 	public Exchange acknowledge() {
-		final DeleteMessageRequest request = new DeleteMessageRequest().withReceiptHandle( message.getReceiptHandle() );
+		final DeleteMessageRequest request = new DeleteMessageRequest(queueUrl, message.getReceiptHandle());
 		sqs.deleteMessage( request );
 		return this;
 	}
