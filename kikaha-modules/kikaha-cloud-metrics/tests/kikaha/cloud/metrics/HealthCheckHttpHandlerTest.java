@@ -1,8 +1,5 @@
 package kikaha.cloud.metrics;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.doReturn;
-
 import javax.inject.Inject;
 import com.codahale.metrics.health.HealthCheck;
 import com.codahale.metrics.health.HealthCheck.Result;

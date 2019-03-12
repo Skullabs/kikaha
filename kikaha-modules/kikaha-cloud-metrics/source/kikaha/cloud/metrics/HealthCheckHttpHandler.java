@@ -5,6 +5,7 @@ import com.codahale.metrics.health.HealthCheckRegistry;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.util.StatusCodes;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.inject.Inject;
 import java.util.Map;
@@ -12,6 +13,7 @@ import java.util.Map;
 /**
  * Endpoint to check if the application is healthy.
  */
+@Slf4j
 public class HealthCheckHttpHandler implements HttpHandler {
 
 	static final String
@@ -36,6 +38,7 @@ public class HealthCheckHttpHandler implements HttpHandler {
 			if ( !entry.getValue().isHealthy() ) {
 				responseStatus = StatusCodes.SERVICE_UNAVAILABLE;
 				message = String.format( UNHEALTHY_MSG, entry.getKey(), entry.getValue().getMessage() );
+				log.warn( message );
 				break;
 			}
 
