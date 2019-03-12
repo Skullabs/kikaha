@@ -1,11 +1,13 @@
 package kikaha.core.modules.security;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.*;
 import java.util.*;
 import javax.inject.Inject;
 import io.undertow.server.*;
+import io.undertow.util.Headers;
 import kikaha.config.Config;
 import kikaha.core.cdi.CDI;
 import kikaha.core.test.*;
@@ -18,8 +20,7 @@ public class AuthenticationRunnerTest {
 
 	@Inject Config config;
 	@Inject CDI provider;
-	@Inject
-	AuthenticationEndpoints authenticationEndpoints;
+	@Inject AuthenticationEndpoints authenticationEndpoints;
 
 	@Mock SecurityContext securityContext;
 	@Mock HttpHandler rootHandler;
@@ -42,7 +43,7 @@ public class AuthenticationRunnerTest {
 	public void ensureThatNotCallTheTargetHttpHandlerWhenDoesntMatchExpectedRoles() throws Exception {
 		doReturn( true ).when( securityContext ).isAuthenticationRequired();
 		doNothing().when( authHandler ).endCommunicationWithClient();
-		doNothing().when( authHandler ).sendForbiddenError();
+		doNothing().when( authHandler ).redirectToPermissionDeniedPage();
 		when( securityContext.authenticate() ).thenReturn( true );
 		when( securityContext.isAuthenticated() ).thenReturn( true );
 		FixedUsernameAndRolesAccount accountWithUnexpectedRoles = new FixedUsernameAndRolesAccount( new HashSet<>(), null );
@@ -50,7 +51,7 @@ public class AuthenticationRunnerTest {
 		authHandler.run();
 		verify( rootHandler, never() ).handleRequest(exchange);
 		verify( authHandler ).handlePermissionDenied();
-		verify( authHandler ).sendForbiddenError();
+		verify( authHandler ).redirectToPermissionDeniedPage();
 	}
 
 	@Test
@@ -73,6 +74,18 @@ public class AuthenticationRunnerTest {
 		verify( authHandler ).handleException( isA( IllegalStateException.class ) );
 	}
 
+	@Test
+	public void ensureCanRedirectToForbiddenPageReplacingCurrentPageUrl(){
+		exchange.setRequestURI( "/hello-world" );
+		exchange.setQueryString( "message=hello world" );
+		when( securityContext.authenticate() ).thenReturn( true );
+		when( securityContext.isAuthenticated() ).thenReturn( true );
+		when( securityContext.getAuthenticatedAccount() ).thenReturn( new FixedUsernameAndRolesAccount( new HashSet<>(), null ) );
+		authHandler.run();
+		assertEquals( exchange.getStatusCode(), 303 );
+		assertEquals("/forbidden-page?current-page=%2Fhello-world%3Fmessage%3Dhello+world", exchange.getResponseHeaders().getFirst(Headers.LOCATION));
+	}
+
 	@Before
 	public void initializeMocks() {
 		MockitoAnnotations.initMocks( this );
@@ -88,7 +101,7 @@ public class AuthenticationRunnerTest {
 		AuthenticationRuleMatcher matcher = mockAuthRuleMatcher();
 		matchedRule = spy( matcher.retrieveAuthenticationRuleForUrl( "/user" ) );
 		authHandler = spy( new AuthenticationRunner( exchange, rootHandler,
-			securityContext, createExpectedRoles(), "" ) );
+				securityContext, createExpectedRoles(), "/forbidden-page?current-page={current-page}" ) );
 	}
 
 	AuthenticationRuleMatcher mockAuthRuleMatcher() {

@@ -1,10 +1,13 @@
 package kikaha.core.modules.security;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Collection;
 import io.undertow.server.*;
 import io.undertow.util.Headers;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -63,7 +66,23 @@ public class AuthenticationRunner implements Runnable {
 
 	void redirectToPermissionDeniedPage() {
 		exchange.setStatusCode( 303 );
-		exchange.getResponseHeaders().put( Headers.LOCATION, permissionDeniedPage );
+		exchange.getResponseHeaders().put( Headers.LOCATION, permissionDeniedPage() );
+	}
+
+	String permissionDeniedPage(){
+		val currentPage = new StringBuilder( exchange.getRequestURI() );
+		if ( !exchange.getQueryString().isEmpty() )
+			currentPage.append( '?' ).append( exchange.getQueryString() );
+		val currentPageEncoded = encode( currentPage.toString() );
+		return permissionDeniedPage.replace( "{current-page}", currentPageEncoded );
+	}
+
+	String encode( String text ){
+		try {
+			return URLEncoder.encode(text, "UTF-8");
+		} catch ( UnsupportedEncodingException e ){
+			throw new RuntimeException( e );
+		}
 	}
 
 	void handleException( final Throwable cause ) {
