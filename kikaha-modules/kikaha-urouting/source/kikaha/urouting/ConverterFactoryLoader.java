@@ -6,6 +6,8 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.*;
 import javax.inject.*;
+
+import kikaha.core.util.Lang;
 import kikaha.urouting.api.*;
 
 @Singleton
@@ -39,25 +41,29 @@ public class ConverterFactoryLoader {
 
 	static private Map<String, AbstractConverter<?>> loadPrimitiveConverters(){
 		final Map<String, AbstractConverter<?>> primitiveConverters = new HashMap<>();
-		converterFrom( primitiveConverters, int.class, Integer::parseInt );
-		converterFrom( primitiveConverters, byte.class, Byte::parseByte );
-		converterFrom( primitiveConverters, float.class, Float::parseFloat );
-		converterFrom( primitiveConverters, double.class, Double::parseDouble );
-		converterFrom( primitiveConverters, long.class, Long::parseLong );
-		converterFrom( primitiveConverters, short.class, Short::parseShort );
-		converterFrom( primitiveConverters, boolean.class, Boolean::parseBoolean );
+		converterFrom( primitiveConverters, int.class, 0, Integer::parseInt );
+		converterFrom( primitiveConverters, byte.class, (byte)0, Byte::parseByte );
+		converterFrom( primitiveConverters, float.class, 0f, Float::parseFloat );
+		converterFrom( primitiveConverters, double.class, 0.0, Double::parseDouble );
+		converterFrom( primitiveConverters, long.class, 0L, Long::parseLong );
+		converterFrom( primitiveConverters, short.class, (short)0, Short::parseShort );
+		converterFrom( primitiveConverters, boolean.class, Boolean.FALSE, Boolean::parseBoolean );
 		return primitiveConverters;
 	}
 
 	static private <T> void converterFrom(
 			Map<String, AbstractConverter<?>> primitiveConverters,
-			Class<T> primitiveType, Function<String, T> converter)
+			Class<T> primitiveType, T defaultValue, Function<String, T> converter)
 	{
 		primitiveConverters.put(
 			primitiveType.getCanonicalName(),
 			new AbstractConverter<T>() {
 				@Override
-				public T convert(String value) throws ConversionException { return converter.apply(value); }
+				public T convert(String value) throws ConversionException {
+					if (Lang.isUndefined(value))
+						return defaultValue;
+					return converter.apply(value);
+				}
 				@Override
 				public Class<T> getGenericClass() { return primitiveType; }
 			}

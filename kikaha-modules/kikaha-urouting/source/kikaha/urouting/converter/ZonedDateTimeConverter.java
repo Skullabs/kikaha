@@ -1,24 +1,22 @@
 package kikaha.urouting.converter;
 
+import kikaha.core.util.Lang;
 import kikaha.urouting.api.AbstractConverter;
-import kikaha.urouting.api.ConversionException;
 
 import javax.enterprise.inject.Typed;
-import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.Date;
+import java.time.format.DateTimeFormatter;
 
 @Singleton
 @Typed( AbstractConverter.class )
 public class ZonedDateTimeConverter extends AbstractConverter<ZonedDateTime> {
 
-	@Inject DateConverter converter;
-
 	@Override
-	public ZonedDateTime convert(String dataAsStr) throws ConversionException {
-		final Date date = converter.convert( dataAsStr );
-		return ZonedDateTime.ofInstant( date.toInstant(), ZoneId.systemDefault() );
+	public ZonedDateTime convert(String dateAsString) {
+		if (Lang.isUndefined(dateAsString) )
+			return null;
+		return ZonedDateTime.parse( dateAsString, DateTimeFormatter.ISO_ZONED_DATE_TIME );
 	}
+
 }
