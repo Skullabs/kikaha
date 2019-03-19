@@ -2,7 +2,7 @@
 A transparent and colaborative model to include and define new features or expected behavior for Kikaha.
 
 ## Tracking issues
-- **Pull Request**: -
+- **Pull Request**: #260
 - **Issue**: -
 
 ## Motivation
