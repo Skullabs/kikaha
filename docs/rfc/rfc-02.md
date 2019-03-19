@@ -1,5 +1,5 @@
 # `RFC-2` - Low overhead principle
-Any feature maybe included in the framework as long as (close to) no overhead has been introduced.
+Any feature maybe included in the framework as long as it has (close to) no overhead has been introduced.
 
 ## Tracking issues
 - **Pull Request**: [#261](https://github.com/Skullabs/kikaha/pull/261)
