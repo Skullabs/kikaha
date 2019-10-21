@@ -3,7 +3,7 @@ package kikaha.urouting.apt;
 import static java.lang.String.format;
 import static kikaha.apt.APT.*;
 
-import java.lang.annotation.Annotation;
+import java.io.InputStream;
 import java.util.function.*;
 import javax.lang.model.element.*;
 import kikaha.apt.*;
@@ -27,6 +27,7 @@ public class MicroRoutingParameterParser extends MethodParametersExtractor {
 			.and( isAnnotatedWith( CookieParam.class ), v -> getParam( CookieParam.class, v.getAnnotation( CookieParam.class ).value(), v ) )
 			.and( isAnnotatedWith( FormParam.class ), v -> getParam( FormParam.class, v.getAnnotation( FormParam.class ).value(), v ) )
 			.and( isAnnotatedWith( Context.class ), v -> format( "methodDataProvider.getData( exchange, %s.class )", asType( v ) ) )
+			.and( typeIs( InputStream.class ), v -> "new java.io.ByteArrayInputStream(bodyData)" )
 			.and( typeIs( AsyncResponse.class ), v -> "asyncResponse" );
 		return rules;
 	}

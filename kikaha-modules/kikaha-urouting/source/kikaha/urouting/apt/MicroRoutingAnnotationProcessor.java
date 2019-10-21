@@ -54,7 +54,7 @@ public class MicroRoutingAnnotationProcessor extends AbstractAnnotatedMethodProc
 			final String methodParams, final boolean isAsyncMode )
 	{
 		final String returnType = extractReturnTypeFrom( method );
-		final boolean requiresBodyData = methodParams.contains( "methodDataProvider.getBody" );
+		final boolean requiresBodyData = methodParams.contains( "bodyData" );
 
 		if ( returnType != null && isAsyncMode )
 			throw new UnsupportedOperationException( "Invalid Routing Method '" + method.asType().toString() +"'. Async methods should not have return type." );
