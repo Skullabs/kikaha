@@ -70,7 +70,7 @@
         <version.mockito>1.10.19</version.mockito>
         <version.mustache>0.9.4</version.mustache>
         <version.vibur>17.0</version.vibur>
-        <version.aws>1.11.125</version.aws>
+        <version.aws>1.11.723</version.aws>
         <version.metrics>3.1.2</version.metrics>
         <version.protobuf>3.2.0</version.protobuf>
         <versions.rocker>0.23.0</versions.rocker>
