@@ -29,6 +29,7 @@ public class SecurityConfiguration {
 	private AuthenticationRequestMatcher authenticationRequestMatcher;
 	private AuthenticationSuccessListener authenticationSuccessListener;
 	private AuthenticationFailureListener authenticationFailureListener;
+	private PermissionDeniedHandler permissionDeniedHandler;
 
 	private List<SecurityEventListener> eventListeners = new ArrayList<>();
 
@@ -41,6 +42,7 @@ public class SecurityConfiguration {
 		authenticationRequestMatcher = loadConfiguredClass( "server.auth.authentication-request-matcher", AuthenticationRequestMatcher.class );
 		authenticationSuccessListener = loadConfiguredClass( "server.auth.authentication-success-listener", AuthenticationSuccessListener.class );
 		authenticationFailureListener = loadConfiguredClass( "server.auth.authentication-failure-listener", AuthenticationFailureListener.class );
+		permissionDeniedHandler = loadConfiguredClass( "server.auth.permission-denied-handler", PermissionDeniedHandler.class );
 	}
 
 	@SuppressWarnings( "all" )

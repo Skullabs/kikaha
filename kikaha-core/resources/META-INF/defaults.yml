@@ -102,6 +102,7 @@ server:
     authentication-success-listener: kikaha.core.modules.security.DefaultAuthenticationSuccessListener
     # authentication-request-matcher:
     password-encoder: kikaha.core.modules.security.PlainTextPasswordEncoder
+    permission-denied-handler: kikaha.core.modules.security.DefaultPermissionDeniedHandler
 
     identity-managers:
       default: kikaha.core.modules.security.FixedUserAndPasswordIdentityManager

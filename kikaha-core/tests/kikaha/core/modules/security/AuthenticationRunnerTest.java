@@ -8,6 +8,7 @@ import java.util.*;
 import javax.inject.Inject;
 import io.undertow.server.*;
 import io.undertow.util.Headers;
+import io.undertow.util.StatusCodes;
 import kikaha.config.Config;
 import kikaha.core.cdi.CDI;
 import kikaha.core.test.*;
@@ -28,6 +29,7 @@ public class AuthenticationRunnerTest {
 	AuthenticationRunner authHandler;
 	HttpServerExchange exchange;
 	AuthenticationRule matchedRule;
+	DefaultPermissionDeniedHandler permissionDeniedHandler;
 
 	@Test
 	public void ensureThatCouldCallTheTargetHttpHandlerWhenIsAuthenticated() throws Exception {
@@ -41,17 +43,18 @@ public class AuthenticationRunnerTest {
 
 	@Test
 	public void ensureThatNotCallTheTargetHttpHandlerWhenDoesntMatchExpectedRoles() throws Exception {
+		exchange.setRequestURI( "/forbidden" );
+		exchange.setQueryString( "current-page=login" );
 		doReturn( true ).when( securityContext ).isAuthenticationRequired();
 		doNothing().when( authHandler ).endCommunicationWithClient();
-		doNothing().when( authHandler ).redirectToPermissionDeniedPage();
 		when( securityContext.authenticate() ).thenReturn( true );
 		when( securityContext.isAuthenticated() ).thenReturn( true );
 		FixedUsernameAndRolesAccount accountWithUnexpectedRoles = new FixedUsernameAndRolesAccount( new HashSet<>(), null );
 		when( securityContext.getAuthenticatedAccount() ).thenReturn( accountWithUnexpectedRoles );
 		authHandler.run();
-		verify( rootHandler, never() ).handleRequest(exchange);
-		verify( authHandler ).handlePermissionDenied();
-		verify( authHandler ).redirectToPermissionDeniedPage();
+		verify( rootHandler, never() ).handleRequest( exchange );
+		verify( permissionDeniedHandler ).handle( anyObject() );
+		verify( permissionDeniedHandler ).redirectToPermissionDeniedPage( anyObject() );
 	}
 
 	@Test
@@ -78,11 +81,12 @@ public class AuthenticationRunnerTest {
 	public void ensureCanRedirectToForbiddenPageReplacingCurrentPageUrl(){
 		exchange.setRequestURI( "/hello-world" );
 		exchange.setQueryString( "message=hello world" );
+		authenticationEndpoints.setPermissionDeniedPage("/forbidden-page?current-page={current-page}");
 		when( securityContext.authenticate() ).thenReturn( true );
 		when( securityContext.isAuthenticated() ).thenReturn( true );
 		when( securityContext.getAuthenticatedAccount() ).thenReturn( new FixedUsernameAndRolesAccount( new HashSet<>(), null ) );
 		authHandler.run();
-		assertEquals( exchange.getStatusCode(), 303 );
+		assertEquals( StatusCodes.SEE_OTHER, exchange.getStatusCode() );
 		assertEquals("/forbidden-page?current-page=%2Fhello-world%3Fmessage%3Dhello+world", exchange.getResponseHeaders().getFirst(Headers.LOCATION));
 	}
 
@@ -99,9 +103,11 @@ public class AuthenticationRunnerTest {
 
 	void initializeAuthHandler() {
 		AuthenticationRuleMatcher matcher = mockAuthRuleMatcher();
+		permissionDeniedHandler = spy(new DefaultPermissionDeniedHandler());
+		permissionDeniedHandler.authenticationEndpoints = authenticationEndpoints;
 		matchedRule = spy( matcher.retrieveAuthenticationRuleForUrl( "/user" ) );
 		authHandler = spy( new AuthenticationRunner( exchange, rootHandler,
-				securityContext, createExpectedRoles(), "/forbidden-page?current-page={current-page}" ) );
+				securityContext, createExpectedRoles(), permissionDeniedHandler ) );
 	}
 
 	AuthenticationRuleMatcher mockAuthRuleMatcher() {

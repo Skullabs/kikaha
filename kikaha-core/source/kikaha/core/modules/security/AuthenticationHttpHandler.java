@@ -1,7 +1,6 @@
 package kikaha.core.modules.security;
 
 import io.undertow.server.*;
-import io.undertow.util.Headers;
 import lombok.*;
 
 @RequiredArgsConstructor
@@ -45,6 +44,6 @@ class AuthenticationHttpHandler implements HttpHandler {
 	{
 		exchange.dispatch(
 			new AuthenticationRunner(
-				exchange, next, context, rule.expectedRoles(), permissionDeniedPage ) );
+				exchange, next, context, rule.expectedRoles(), securityConfiguration.getPermissionDeniedHandler() ) );
 	}
 }
