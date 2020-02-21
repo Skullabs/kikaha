@@ -13,3 +13,4 @@ faces-defaultConfig.xml
 pom.xml.*
 derby.log
 unit-test.db
+*.jar
