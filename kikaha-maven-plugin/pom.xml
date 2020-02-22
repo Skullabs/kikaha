@@ -13,7 +13,7 @@
 	<packaging>maven-plugin</packaging>
 
 	<properties>
-		<maven.version>2.2.1</maven.version>
+		<maven.version>3.6.3</maven.version>
 		<version.kotlin>1.0.6</version.kotlin>
 	</properties>
 
@@ -121,12 +121,17 @@
 			<version>3.4</version>
 		</dependency>
 		<dependency>
-			<groupId>com.sun</groupId>
-			<artifactId>tools</artifactId>
-			<scope>system</scope>
-			<version>1</version>
-			<systemPath>${java.home}/../lib/tools.jar</systemPath>
+			<groupId>org.apache.maven.shared</groupId>
+			<artifactId>maven-artifact-transfer</artifactId>
+			<version>0.12.0</version>
 		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>com.sun</groupId>-->
+<!--			<artifactId>tools</artifactId>-->
+<!--			<scope>system</scope>-->
+<!--			<version>1</version>-->
+<!--			<systemPath>${java.home}/../lib/tools.jar</systemPath>-->
+<!--		</dependency>-->
 	</dependencies>
 
 	<build>
@@ -155,7 +160,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-plugin-plugin</artifactId>
-				<version>3.5</version>
+				<version>3.6.0</version>
 				<executions>
 					<execution>
 						<id>default-descriptor</id>

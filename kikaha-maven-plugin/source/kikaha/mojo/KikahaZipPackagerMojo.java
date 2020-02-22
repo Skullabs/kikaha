@@ -1,18 +1,30 @@
 package kikaha.mojo;
 
+import kikaha.mojo.packager.ZipFileReader;
+import kikaha.mojo.packager.ZipFileWriter;
+import lombok.Cleanup;
+import lombok.val;
+import org.apache.maven.artifact.Artifact;
+import org.apache.maven.artifact.repository.ArtifactRepository;
+import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.plugins.annotations.ResolutionScope;
+import org.apache.maven.project.MavenProject;
+import org.eclipse.aether.RepositorySystemSession;
+import org.eclipse.aether.artifact.DefaultArtifact;
+import org.eclipse.aether.impl.ArtifactResolver;
+import org.eclipse.aether.resolution.ArtifactRequest;
+import org.eclipse.aether.resolution.ArtifactResolutionException;
+
 import java.io.*;
 import java.net.URL;
 import java.security.CodeSource;
-import java.util.*;
-import kikaha.mojo.packager.*;
-import lombok.Cleanup;
-import org.apache.maven.artifact.Artifact;
-import org.apache.maven.artifact.repository.ArtifactRepository;
-import org.apache.maven.artifact.resolver.*;
-import org.apache.maven.plugin.*;
-import org.apache.maven.plugins.annotations.*;
-import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.project.MavenProject;
+import java.util.HashSet;
+import java.util.Set;
 
 @Mojo( name = "package",
 		requiresDependencyResolution = ResolutionScope.COMPILE_PLUS_RUNTIME )
@@ -44,9 +56,6 @@ public class KikahaZipPackagerMojo extends AbstractMojo {
 
 	@Component
 	ArtifactResolver resolver;
-
-	@Parameter( defaultValue = "${localRepository}", required = true )
-	ArtifactRepository localRepository;
 
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
@@ -80,7 +89,7 @@ public class KikahaZipPackagerMojo extends AbstractMojo {
 			copyFinalArtifactToZip( zip );
 			copyWebResourceFolderToZip( zip );
 			copyDirectoryFilesToZip( zip, resourceDirectory, "" );
-		} catch ( final IOException | ArtifactResolutionException | ArtifactNotFoundException e ) {
+		} catch ( final IOException | ArtifactResolutionException e ) {
 			throw new MojoExecutionException( "Failed to populate zip", e );
 		}
 	}
@@ -106,8 +115,7 @@ public class KikahaZipPackagerMojo extends AbstractMojo {
 
 	@SuppressWarnings( "unchecked" )
 	void copyDependenciesToZip( final ZipFileWriter zip )
-			throws ArtifactResolutionException, ArtifactNotFoundException, MojoExecutionException, IOException
-	{
+			throws MojoExecutionException, IOException, ArtifactResolutionException {
 		final Set<String> namesAlreadyIncludedToZip = new HashSet<>();
 		for ( final Artifact artifact : (Set<Artifact>)project.getArtifacts() ) {
 			final String artifactAbsolutePath = getArtifactAbsolutePath( artifact );
@@ -132,10 +140,21 @@ public class KikahaZipPackagerMojo extends AbstractMojo {
 		copyFilesFromJarToZip( zip, artifactAbsolutePath );
 	}
 
-	String getArtifactAbsolutePath( final Artifact artifact )
-			throws ArtifactResolutionException, ArtifactNotFoundException
-	{
-		resolver.resolve( artifact, Collections.EMPTY_LIST, localRepository );
+	private String getArtifactAbsolutePath(final Artifact artifact) throws ArtifactResolutionException {
+		val projectBuildingRequest = project.getProjectBuildingRequest();
+
+		val aetherArtifact = new DefaultArtifact(
+				artifact.getGroupId(),
+				artifact.getArtifactId(),
+				artifact.getClassifier(),
+				artifact.getVersion()
+		);
+
+		val request = new ArtifactRequest()
+				.setArtifact(aetherArtifact)
+				.setRepositories(project.getRemoteProjectRepositories())
+				;
+		resolver.resolveArtifact(projectBuildingRequest.getRepositorySession(), request);
 		return artifact.getFile().getAbsolutePath();
 	}
 

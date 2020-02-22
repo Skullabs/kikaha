@@ -1,17 +1,28 @@
 package kikaha.mojo;
 
-import java.io.File;
-import java.util.*;
 import kikaha.core.cdi.ApplicationRunner;
 import kikaha.mojo.runner.MainClassService;
 import lombok.val;
-import org.apache.maven.artifact.*;
+import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.repository.ArtifactRepository;
-import org.apache.maven.artifact.resolver.*;
-import org.apache.maven.plugin.*;
-import org.apache.maven.plugins.annotations.*;
+import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
+import org.eclipse.aether.RepositorySystemSession;
+import org.eclipse.aether.artifact.DefaultArtifact;
+import org.eclipse.aether.impl.ArtifactResolver;
+import org.eclipse.aether.resolution.ArtifactRequest;
+import org.eclipse.aether.resolution.ArtifactResolutionException;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @Mojo( name = "run",
 	requiresDependencyResolution = ResolutionScope.COMPILE_PLUS_RUNTIME )
@@ -75,7 +86,7 @@ public class KikahaRunnerMojo extends AbstractMojo {
 
 	@SuppressWarnings( "unchecked" )
 	List<String> memorizeClassPathWithRunnableJar()
-			throws DependencyResolutionRequiredException, ArtifactResolutionException, ArtifactNotFoundException {
+			throws ArtifactResolutionException {
 		val artifactsInClassPath = new ArrayList<String>();
 		for ( val artifact : (Set<Artifact>)this.project.getArtifacts() ) {
 			val artifactAbsolutePath = getArtifactAbsolutePath( artifact );
@@ -87,9 +98,21 @@ public class KikahaRunnerMojo extends AbstractMojo {
 		return artifactsInClassPath;
 	}
 
-	String getArtifactAbsolutePath( final Artifact artifact )
-			throws ArtifactResolutionException, ArtifactNotFoundException {
-		this.resolver.resolve( artifact, Collections.EMPTY_LIST, this.localRepository );
+	private String getArtifactAbsolutePath(final Artifact artifact) throws ArtifactResolutionException {
+		val projectBuildingRequest = project.getProjectBuildingRequest();
+
+		val aetherArtifact = new DefaultArtifact(
+				artifact.getGroupId(),
+				artifact.getArtifactId(),
+				artifact.getClassifier(),
+				artifact.getVersion()
+		);
+
+		val request = new ArtifactRequest()
+				.setArtifact(aetherArtifact)
+				.setRepositories(project.getRemoteProjectRepositories())
+				;
+		resolver.resolveArtifact(projectBuildingRequest.getRepositorySession(), request);
 		return artifact.getFile().getAbsolutePath();
 	}
 }
