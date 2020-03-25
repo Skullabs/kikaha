@@ -10,6 +10,9 @@ import org.apache.maven.plugin.MojoExecutionException;
 @Getter
 public class ZipFileWriter {
 
+	private static final String WINDOWS_FILE_SEPARATOR = "\\";
+	private static final boolean IS_WINDOWS_FILE_SEPARATOR = WINDOWS_FILE_SEPARATOR.equals( File.separator );
+
 	final List<String> prefixesToStripOutFromName = new ArrayList<>();
 	final ZipOutputStream output;
 	final String fileName;
@@ -53,6 +56,7 @@ public class ZipFileWriter {
 	}
 
 	String fixEntryName( String entryName ) {
+		entryName = fixWindowsFileSeparator(entryName);
 		for ( final String prefix : prefixesToStripOutFromName )
 			entryName = entryName.replaceFirst( prefix, "" );
 		final String finalEntryName = rootDirectory + "/" + entryName;
@@ -69,6 +73,13 @@ public class ZipFileWriter {
 
 	public void stripPrefix( final String... prefixes ) {
 		for ( final String prefix : prefixes )
-			prefixesToStripOutFromName.add( prefix );
+			prefixesToStripOutFromName.add( fixWindowsFileSeparator(prefix) );
+	}
+
+	private String fixWindowsFileSeparator(String path) {
+		if ( IS_WINDOWS_FILE_SEPARATOR && path.contains(WINDOWS_FILE_SEPARATOR) ) {
+			path = path.replace( WINDOWS_FILE_SEPARATOR, "/" );
+		}
+		return path;
 	}
 }
