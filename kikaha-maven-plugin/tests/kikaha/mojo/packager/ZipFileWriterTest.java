@@ -3,16 +3,20 @@ package kikaha.mojo.packager;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
 public class ZipFileWriterTest {
 
     @Test
     public void testFixEntryName() throws MojoExecutionException {
         //Testing special regex chars like \k, \Q, \E and others
-        String[] pathsToTest = {"c:\\kikaha-test\\app", "c:\\Qope-test\\app", "c:\\Eoad-test\\app", "/Quit/test", "/kikaha-tes/c/app"};
-        ZipFileWriter zipFileWriter = new ZipFileWriter("output/generated-test.zip");
-        zipFileWriter.stripPrefix(pathsToTest);
+        final String[] prefixesToTest = {"c:\\kikaha-test\\app", "c:\\Qope-test\\app", "c:\\Eoad-test\\app", "/Quit/test", "/kikaha-tes/c/app"};
+        final String additionalPath = "/conf/application.yaml";
+        final ZipFileWriter zipFileWriter = new ZipFileWriter("output/generated-test.zip");
+        zipFileWriter.stripPrefix(prefixesToTest);
 
-        for (String path : pathsToTest)
-            zipFileWriter.fixEntryName(path);
+        for (String prefix : prefixesToTest)
+            assertEquals(additionalPath, zipFileWriter.fixEntryName(prefix + additionalPath));
+
     }
 }
