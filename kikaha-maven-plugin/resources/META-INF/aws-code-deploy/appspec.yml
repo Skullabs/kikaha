@@ -10,10 +10,10 @@ files:
 hooks:
   BeforeInstall:
     - location: bin/stop.sh
-      timeout: 3600
+      timeout: 120
   ApplicationStart:
     - location: bin/start.sh
-      timeout: 3600
+      timeout: 120
   ValidateService:
     - location: bin/validate.sh
-      timeout: 3600
+      timeout: {{code-deploy-validate-wait-time}}
