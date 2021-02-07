@@ -70,7 +70,7 @@
         <version.hazelcast>3.8.2</version.hazelcast>
         <version.slf4j>1.7.25</version.slf4j>
         <version.logback>1.2.3</version.logback>
-        <version.junit>4.12</version.junit>
+        <version.junit>4.13.1</version.junit>
         <version.lombok>1.16.20</version.lombok>
         <version.mockito>1.10.19</version.mockito>
         <version.mustache>0.9.4</version.mustache>
