@@ -15,7 +15,7 @@ import lombok.experimental.Accessors;
 public class DefaultResponse implements Response, MutableResponse {
 
 	int statusCode = 200;
-	@NonNull Object entity = "";
+	Object entity = "";
 	@NonNull String encoding = "UTF-8";
 	@NonNull List<Header> headers = new TinyList<>();
 
