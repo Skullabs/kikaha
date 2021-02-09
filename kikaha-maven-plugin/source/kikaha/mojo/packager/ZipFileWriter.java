@@ -1,5 +1,6 @@
 package kikaha.mojo.packager;
 
+import static java.lang.System.getProperties;
 import static kikaha.mojo.packager.packager.*;
 import java.io.*;
 import java.util.*;
@@ -10,8 +11,8 @@ import org.apache.maven.plugin.MojoExecutionException;
 @Getter
 public class ZipFileWriter {
 
-	private static final String WINDOWS_FILE_SEPARATOR = "\\";
-	private static final boolean IS_WINDOWS_FILE_SEPARATOR = WINDOWS_FILE_SEPARATOR.equals( File.separator );
+	private static final String WINDOWS_PATH_SEPARATOR = "\\";
+  private static final String REGEX_PREFIX_WINDOWS_PATH = "^[a-zA-Z]:\\\\.*";
 
 	final List<String> prefixesToStripOutFromName = new ArrayList<>();
 	final ZipOutputStream output;
@@ -56,7 +57,7 @@ public class ZipFileWriter {
 	}
 
 	String fixEntryName( String entryName ) {
-		entryName = fixWindowsFileSeparator(entryName);
+		entryName = sanitizePath(entryName);
 		for ( final String prefix : prefixesToStripOutFromName )
 			entryName = entryName.replaceFirst( prefix, "" );
 		final String finalEntryName = rootDirectory + "/" + entryName;
@@ -73,13 +74,23 @@ public class ZipFileWriter {
 
 	public void stripPrefix( final String... prefixes ) {
 		for ( final String prefix : prefixes )
-			prefixesToStripOutFromName.add( fixWindowsFileSeparator(prefix) );
+			prefixesToStripOutFromName.add( sanitizePath(prefix) );
 	}
 
-	private String fixWindowsFileSeparator(String path) {
-		if ( IS_WINDOWS_FILE_SEPARATOR && path.contains(WINDOWS_FILE_SEPARATOR) ) {
-			path = path.replace( WINDOWS_FILE_SEPARATOR, "/" );
+	private String sanitizePath(final String path) {
+		if(isWindowsPath(path)) {
+			return sanitizePathToWindows(path);
+		} else {
+			return path;
 		}
-		return path;
 	}
+
+	private boolean isWindowsPath(final String path) {
+		return path.matches(REGEX_PREFIX_WINDOWS_PATH);
+	}
+
+	private String sanitizePathToWindows(String path) {
+		return path.replace( WINDOWS_PATH_SEPARATOR, "/" );
+	}
+
 }
