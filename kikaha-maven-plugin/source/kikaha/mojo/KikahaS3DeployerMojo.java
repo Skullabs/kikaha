@@ -175,20 +175,23 @@ public class KikahaS3DeployerMojo extends AbstractMojo {
 
 	void copyCodeDeployFolderFolderToZip( final ZipFileWriter zip ) throws MojoExecutionException {
 		final File directory = new File(codeDeployFolder);
-		copyDirectoryFilesToZip( zip, directory );
+		copyDirectoryFilesToZipPreservingRelativePaths( zip, directory, directory );
 	}
 
-	void copyDirectoryFilesToZip( final ZipFileWriter zip, final File directory ) throws MojoExecutionException {
+	void copyDirectoryFilesToZipPreservingRelativePaths( final ZipFileWriter zip, final File rootDir, final File directory ) throws MojoExecutionException {
 		if ( directory.exists() )
 			for ( final File file : directory.listFiles() )
-				copyFileToZip( zip, file );
+				copyFileToZip( zip, rootDir, file );
 	}
 
-	void copyFileToZip(final ZipFileWriter zip, final File file ) throws MojoExecutionException {
+	void copyFileToZip(final ZipFileWriter zip, final File rootDir, final File file ) throws MojoExecutionException {
 		if ( file.isDirectory() )
-			copyDirectoryFilesToZip( zip, file );
+			copyDirectoryFilesToZipPreservingRelativePaths( zip, rootDir, file );
 		else {
-			final String fileName = ( file.getName() ).replaceFirst( "^/", "" );
+			final String fileName = file.getAbsolutePath()
+					.replace( rootDir.getAbsolutePath(), "" )
+					.replaceFirst( "^/", "" )
+					.replaceFirst( "^\\\\", "" );
 			copyFileToZip( zip, file, fileName );
 		}
 	}
