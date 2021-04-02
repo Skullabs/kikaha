@@ -60,6 +60,9 @@ public class KikahaS3DeployerMojo extends AbstractMojo {
 	@Parameter( defaultValue = "120", required = true)
 	Integer codeDeployWaitTime;
 
+	@Parameter( defaultValue = "false", required = true )
+	Boolean codeDeployIgnoreApplicationStopFailures;
+
 	@Parameter( defaultValue = "${project.build.finalName}-runnable.jar", required = true )
 	String jarFileName;
 
@@ -105,6 +108,7 @@ public class KikahaS3DeployerMojo extends AbstractMojo {
 		final CreateDeploymentRequest createDeploymentRequest = new CreateDeploymentRequest()
 				.withApplicationName( codeDeployApplicationName )
 				.withDeploymentGroupName( codeDeployDeploymentGroupName )
+				.withIgnoreApplicationStopFailures( codeDeployIgnoreApplicationStopFailures )
 				.withRevision(new RevisionLocation().withS3Location(s3Location).withRevisionType(RevisionLocationType.S3));
 		final CreateDeploymentResult result = codeDeploy.createDeployment(createDeploymentRequest);
 		getLog().info( result.toString() );

@@ -27,6 +27,7 @@
         <config.plugins.aws.s3.useCodeDeploy>false</config.plugins.aws.s3.useCodeDeploy>
         <config.plugins.aws.s3.codeDeployFolder>META-INF/aws-code-deploy/</config.plugins.aws.s3.codeDeployFolder>
         <config.plugins.aws.s3.codeDeployWaitTime>120</config.plugins.aws.s3.codeDeployWaitTime>
+        <config.plugins.aws.s3.codeDeployIgnoreApplicationStopFailures>false</config.plugins.aws.s3.codeDeployIgnoreApplicationStopFailures>
         <config.plugins.aws.s3.codeDeployApplicationName>${project.groupId}-${project.artifactId}-${project.version}.zip</config.plugins.aws.s3.codeDeployApplicationName>
         <config.plugins.aws.s3.codeDeployDeploymentGroupName>production</config.plugins.aws.s3.codeDeployDeploymentGroupName>
         <config.plugins.aws.s3.region>${config.plugins.aws.lambda.region}</config.plugins.aws.s3.region>
@@ -91,6 +92,7 @@
                             <useCodeDeploy>${config.plugins.aws.s3.useCodeDeploy}</useCodeDeploy>
                             <codeDeployFolder>${config.plugins.aws.s3.codeDeployFolder}</codeDeployFolder>
                             <codeDeployWaitTime>${config.plugins.aws.s3.codeDeployWaitTime}</codeDeployWaitTime>
+                            <codeDeployIgnoreApplicationStopFailures>${config.plugins.aws.s3.codeDeployIgnoreApplicationStopFailures}</codeDeployIgnoreApplicationStopFailures>
                             <codeDeployDeploymentGroupName>${config.plugins.aws.s3.codeDeployDeploymentGroupName}</codeDeployDeploymentGroupName>
                             <codeDeployApplicationName>${config.plugins.aws.s3.codeDeployApplicationName}</codeDeployApplicationName>
                         </configuration>
